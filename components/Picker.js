@@ -30,7 +30,7 @@ export default function Picker ({ color, onChange }) {
   }, [show]);
 
   return (
-    <div ref={node} className="relative inline-block p-1 bg-white border">
+    <div ref={node} className="relative inline-block p-1 select-none bg-white border">
       <div
         className="h-4 w-5"
         style={{ backgroundColor: color }}

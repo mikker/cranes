@@ -6,7 +6,8 @@ import {
   OrbitControls,
   PerspectiveCamera,
   Cylinder,
-  softShadows
+  softShadows,
+  Plane,
 } from "@react-three/drei";
 import { Bloom, EffectComposer } from "@react-three/postprocessing";
 
@@ -17,17 +18,24 @@ import Picker from "../components/Picker";
 // softShadows()
 
 export default function Home() {
+  // const [colors, setColors] = useState({
+  //   bg: "#E2D5B5",
+  //   floor: "#B5A880",
+  //   crane: "#041BFB",
+  //   emissive: "#FB8064",
+  //   directLight: "#FFFFFF",
+  //   piedestal: "#C1A16E",
+  // });
   const [colors, setColors] = useState({
-    bg: "#E2D5B5",
-    floor: "#B5A880",
-    crane: "#041BFB",
-    emissive: "#FB8064",
-    directLight: "#FFFFFF",
-    piedestal: "#C1A16E",
+    bg: '#111',
+    floor: '#444',
+    crane: randomColor(),
+    emissive: randomColor(),
+    directLight: randomColor(),
   });
 
   return (
-    <main className="">
+    <main className="p-5">
       <div className="max-w-4xl mx-auto bg-yellow-300 flex">
         <div className="flex-0 p-2 bg-gray-100 space-y-1 flex flex-col">
           {Object.keys(colors).map((key) => (
@@ -53,56 +61,53 @@ export default function Home() {
           <div>
             <Canvas
               dpr={1}
-              shadows={{ enabled: true }}
+              shadows={{ enabled: false }}
               camera={{
-                position: [0, 1.3, 3],
+                position: [0, 0.8, 2.3],
                 rotation: [Math.PI / 1.5, 0, 0],
+                fov: 70
               }}
             >
               <color attach="background" args={[colors.bg]} />
+              <fog attach="fog" args={[colors.bg, 0, 10]} />
               {/* <OrbitControls /> */}
+
+              <ambientLight intensity={0.1} />
               <directionalLight
                 color={colors.directLight}
-                position={[0, 2, 0]}
+                intensity={2}
+                position={[0, 3, 0]}
                 castShadow
               />
+              <directionalLight
+                //color={colors.directLight}
+                intensity={2}
+                position={[0, 1, 2]}
+                // castShadow
+              />
+
+              <EffectComposer>
+                <Bloom intensity={1.0} />
+              </EffectComposer>
               <Suspense fallback={null}>
-                <EffectComposer>
-                  <Bloom intensity={0.5} />
-                </EffectComposer>
                 <Crane
-                  rotation={[Math.PI / 2, 0, 0]}
+                  rotation={[0, Math.PI / 4, 0]}
                   color={colors.crane}
                   emissive={colors.emissive}
+                  emissiveIntensity={0.5}
                   metallic={0.6}
                   roughness={0.2}
                 />
-                <Cylinder
-                  position={[0, -0.7, 0]}
-                  args={[0.8, 0.8, 0.2, 50]}
-                  receiveShadow
-                  castShadow
-                >
-                  <meshStandardMaterial color={colors.piedestal} />
-                </Cylinder>
-                <Cylinder
-                  position={[0, -0.9, 0]}
-                  args={[1, 1, 0.2, 50]}
-                  receiveShadow
-                  castShadow
-                >
-                  <meshStandardMaterial color={colors.piedestal} />
-                </Cylinder>
-                <mesh
-                  position={[0, -1, 0]}
-                  rotation-x={-Math.PI / 2}
-                  receiveShadow
-                >
-                  <planeGeometry args={[100, 10]} />
-                  <meshStandardMaterial color={colors.floor} />
-                </mesh>
-                <Environment preset="city" background={false} />
               </Suspense>
+              <Plane
+                args={[100, 10]}
+                position={[0, -1, 0]}
+                rotation-x={-Math.PI / 2}
+                receiveShadow
+              >
+                <meshPhongMaterial color={colors.floor} refractionRatio={0.8} />
+              </Plane>
+              {/* <Environment preset="city" background={false} /> */}
             </Canvas>
           </div>
         </div>
@@ -114,11 +119,14 @@ export default function Home() {
 function randomColors(colors) {
   const out = {};
   for (const key in colors) {
-    out[key] =
-      "#" +
+    out[key] = randomColor()
+  }
+  return out;
+}
+
+function randomColor() {
+      return "#" +
       Math.floor(Math.random() * 2 ** 24)
         .toString(16)
         .padStart(6, "0");
-  }
-  return out;
 }
