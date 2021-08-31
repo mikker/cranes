@@ -13,18 +13,18 @@
     "@react-three/fiber": "^7.0.6",
     "@react-three/postprocessing": "^2.0.5",
     "@tailwindcss/aspect-ratio": "^0.2.1",
-    "@uiw/react-color": "^0.1.0",
-    "autoprefixer": "^10.3.2",
-    "next": "11.1.0",
+    "@uiw/react-color": "^1.0.0",
+    "autoprefixer": "^10.3.3",
+    "next": "11.1.1",
     "postcss": "^8.3.6",
     "randomcolor": "^0.6.2",
     "react": "17.0.2",
     "react-color": "^2.19.3",
     "react-dom": "17.0.2",
-    "tailwindcss": "^2.2.7"
+    "tailwindcss": "^2.2.9"
   },
   "devDependencies": {
     "eslint": "7.32.0",
-    "eslint-config-next": "11.1.0"
+    "eslint-config-next": "11.1.1"
   }
 }
