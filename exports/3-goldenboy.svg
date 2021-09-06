@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="2048px" height="2048px" viewBox="0 0 2048 2048" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>exports/3-goldenboy</title>
+    <defs>
+        <linearGradient x1="17.028014%" y1="80.6882597%" x2="86.7548358%" y2="21.4968369%" id="linearGradient-1">
+            <stop stop-color="#FFA348" offset="0%"></stop>
+            <stop stop-color="#FFDC70" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="50%" y1="92.0433097%" x2="61.2416527%" y2="79.9147417%" id="linearGradient-2">
+            <stop stop-color="#FFA348" offset="0%"></stop>
+            <stop stop-color="#FFDC70" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="45.3456032%" y1="50%" x2="57.354023%" y2="89.5130182%" id="linearGradient-3">
+            <stop stop-color="#FFA348" offset="0%"></stop>
+            <stop stop-color="#FFDC70" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="71.9800768%" y1="19.3034802%" x2="29.1768025%" y2="100%" id="linearGradient-4">
+            <stop stop-color="#FFA348" offset="0%"></stop>
+            <stop stop-color="#FFDC70" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="36.3957911%" y1="44.3249297%" x2="59.0428123%" y2="25.9504214%" id="linearGradient-5">
+            <stop stop-color="#FFA348" offset="0%"></stop>
+            <stop stop-color="#FFDC70" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="-17.9106676%" y1="79.6845195%" x2="57.4170696%" y2="11.3529532%" id="linearGradient-6">
+            <stop stop-color="#FFA348" offset="0%"></stop>
+            <stop stop-color="#FFDC70" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="60.737774%" y1="12.1275491%" x2="42.1943024%" y2="106.348829%" id="linearGradient-7">
+            <stop stop-color="#FFA348" offset="0%"></stop>
+            <stop stop-color="#FFDC70" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="43.7157516%" y1="57.676745%" x2="75.1442102%" y2="8.18503928%" id="linearGradient-8">
+            <stop stop-color="#FFA348" offset="0%"></stop>
+            <stop stop-color="#FFDC70" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="100%" y1="42.2052952%" x2="50%" y2="58.4146775%" id="linearGradient-9">
+            <stop stop-color="#FFA348" offset="0%"></stop>
+            <stop stop-color="#FFDC70" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="exports/3-goldenboy" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect fill="#1C222B" x="0" y="0" width="2048" height="2048"></rect>
+        <polygon id="shadow" fill="#000000" points="271 562 783 1247 1005 999 1930 643 1637 1256 1871 1510 1607 1355 1149 1775 1047 1641 55 1434 576 1195"></polygon>
+        <g id="C-Copy" transform="translate(82.000000, 186.000000)">
+            <polygon id="Path-5" fill="url(#linearGradient-1)" points="833 785 948 521 1884 96 1549 892 1232 1081"></polygon>
+            <polygon id="Path-3" fill="url(#linearGradient-2)" points="572 851 219 0 795 932"></polygon>
+            <polygon id="Path" fill="url(#linearGradient-3)" points="994 706 1232 1036 1088 1124"></polygon>
+            <polygon id="Path-7" fill="url(#linearGradient-4)" points="1165 1398 1570 931.714286 1521.94915 870"></polygon>
+            <path d="M1550,834 C1570.63318,822.172242 1613.81394,834.701194 1638,864 C1654.12404,883.532537 1710.45738,972.199204 1807,1130 L1522,861 C1526.91121,850.885172 1536.24454,841.885172 1550,834 Z" id="Path-6" fill="url(#linearGradient-5)"></path>
+            <path d="M1063,1109 C1317,941.666667 1450.33333,853.666667 1463,845 C1482,832 1515,820 1547,838 C1568.33333,850 1655,947.333333 1807,1130 L1528,914 L1165,1398 L1097,1439 L1063,1109 Z" id="Path-4" fill="url(#linearGradient-6)"></path>
+            <polygon id="Path-2" fill="url(#linearGradient-7)" points="1097 1439 1144 1233 994 1266"></polygon>
+            <polygon id="Path-8" fill="url(#linearGradient-8)" points="651 857 994 706 1144 1233"></polygon>
+            <polygon id="Path-9" fill="url(#linearGradient-9)" points="0 1035 498 768 711 830 1144 1233 1031 1285"></polygon>
+        </g>
+        <rect id="1" fill="#FFA348" x="0" y="1968" width="80" height="80"></rect>
+        <rect id="2" fill="#FFDC70" x="80" y="1968" width="80" height="80"></rect>
+    </g>
+</svg>

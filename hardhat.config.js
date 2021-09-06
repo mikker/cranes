@@ -17,15 +17,22 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
 });
 
 module.exports = {
-  solidity: "0.8.2",
-  // defaultNetwork: "localhost",
+  solidity: {
+    version: "0.8.2",
+    settings: {
+      optimizer: {
+        // enabled: true,
+        // runs: 200,
+      },
+    },
+  },
   networks: {
     ropsten: {
       url: process.env.ROPSTEN_ENDPOINT,
-      accounts: [process.env.PRIVATE_KEY]
+      accounts: [process.env.PRIVATE_KEY],
     },
   },
   etherscan: {
-    apiKey: process.env.ETHERSCAN_API_KEY
-  }
+    apiKey: process.env.ETHERSCAN_API_KEY,
+  },
 };
