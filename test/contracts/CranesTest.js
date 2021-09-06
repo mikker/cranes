@@ -7,6 +7,7 @@ describe("Cranes", function () {
   let contract;
   let owner;
   let wallet1;
+  let wallet2;
 
   beforeEach(async function () {
     const ColorsContract = await hre.ethers.getContractFactory("Colors");
@@ -14,7 +15,7 @@ describe("Cranes", function () {
     const CranesContract = await hre.ethers.getContractFactory("Cranes", {
       libraries: { Colors: colors.address },
     });
-    [owner, wallet1] = await hre.ethers.getSigners();
+    [owner, wallet1, wallet2] = await hre.ethers.getSigners();
     contract = await CranesContract.deploy();
   });
 
@@ -32,9 +33,42 @@ describe("Cranes", function () {
   });
 
   it("can be minted by owner", async function () {
-    const token = await contract.mint(owner.address);
-    const balance = await contract.balanceOf(owner.address);
-    expect(balance).to.equal(1);
+    await contract.mint(owner.address);
+    expect(await contract.balanceOf(owner.address)).to.equal(1);
+  });
+
+  it("can be crafted by anyone for themselves", async function () {
+    const contractAsWallet = await contract.connect(wallet1);
+    await contractAsWallet.craftForSelf({
+      value: ethers.utils.parseEther("0.01"),
+    });
+    expect(await contract.balanceOf(owner.address)).to.equal(0);
+    expect(await contract.balanceOf(wallet1.address)).to.equal(1);
+  });
+
+  it("throws when price is too low", async function () {
+    const contractAsWallet = await contract.connect(wallet1);
+    expect(
+      contractAsWallet.craftForSelf({
+        value: ethers.utils.parseEther("0.0001"),
+      })
+    ).to.be.revertedWith("PRICE_NOT_MET");
+
+    expect(
+      contractAsWallet.craftForFriend(wallet2.address, {
+        value: ethers.utils.parseEther("0.0001"),
+      })
+    ).to.be.revertedWith("PRICE_NOT_MET");
+  });
+
+  it("can be crafted by anyone for someone else", async function () {
+    const contractAsWallet = await contract.connect(wallet1);
+    const token = await contractAsWallet.craftForFriend(wallet2.address, {
+      value: ethers.utils.parseEther("0.01"),
+    });
+    expect(await contract.balanceOf(owner.address)).to.equal(0);
+    expect(await contract.balanceOf(wallet1.address)).to.equal(0);
+    expect(await contract.balanceOf(wallet2.address)).to.equal(1);
   });
 
   it("has a tokenUri", async function () {

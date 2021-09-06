@@ -21,7 +21,7 @@ contract Cranes is ERC721, ERC721Enumerable, Ownable {
   function _mint(address destination) internal {
     uint256 tokenId = _tokenIdCounter.current();
     _safeMint(destination, tokenId);
-    _seeds[tokenId] = 1; // _random(_toString(uint256(uint160(msg.sender))));
+    _seeds[tokenId] = uint256(uint160(destination));
     _tokenIdCounter.increment();
     _yearlyCounts[getCurrentYear()].increment();
   }
@@ -31,10 +31,12 @@ contract Cranes is ERC721, ERC721Enumerable, Ownable {
   }
 
   function craftForSelf() public payable virtual {
+    require(msg.value >= 10000000000000000, "PRICE_NOT_MET");
     _mint(msg.sender);
   }
 
   function craftForFriend(address walletAddress) public payable virtual {
+    require(msg.value >= 10000000000000000, "PRICE_NOT_MET");
     _mint(walletAddress);
   }
 
@@ -53,9 +55,15 @@ contract Cranes is ERC721, ERC721Enumerable, Ownable {
     returns (string memory)
   {
     uint256 seed = _seeds[tokenId] + tokenId;
-    string memory c0 = Colors.fromSeed(string(abi.encodePacked(seed, "C0"))).toCSSString();
-    string memory c1 = Colors.fromSeed(string(abi.encodePacked(seed, "C1"))).toCSSString();
-    string memory bg = Colors.fromSeed(string(abi.encodePacked(seed, "BG"))).toCSSString();
+    string memory c0 = Colors
+      .fromSeed(string(abi.encodePacked(seed, "C0")))
+      .toCSSString();
+    string memory c1 = Colors
+      .fromSeed(string(abi.encodePacked(seed, "C1")))
+      .toCSSString();
+    string memory bg = Colors
+      .fromSeed(string(abi.encodePacked(seed, "BG")))
+      .toCSSString();
 
     string[43] memory parts;
     // prettier-ignore
@@ -69,49 +77,42 @@ contract Cranes is ERC721, ERC721Enumerable, Ownable {
     parts[6] = '" offset="0%"/><stop stop-color="';
     parts[7] = c1;
     // prettier-ignore
-    parts[8] = '" offset="100%"/></linearGradient><linearGradient x1="45.3%" y1="50%" x2="57.3%" y2="89.5%" id="C"><stop stop-color="';
+    parts[8] = '" offset="100%"/></linearGradient><linearGradient x1="36.3%" y1="44.3%" x2="59.0%" y2="25.9%" id="E"><stop stop-color="';
     parts[9] = c0;
     parts[10] = '" offset="0%"/><stop stop-color="';
     parts[11] = c1;
     // prettier-ignore
-    parts[12] = '" offset="100%"/></linearGradient><linearGradient x1="71.9%" y1="19.3%" x2="29.1%" y2="100%" id="D"><stop stop-color="';
+    parts[12] = '" offset="100%"/></linearGradient><linearGradient x1="-17.9%" y1="79.6%" x2="57.4%" y2="11.3%" id="F"><stop stop-color="';
     parts[13] = c0;
     parts[14] = '" offset="0%"/><stop stop-color="';
     parts[15] = c1;
     // prettier-ignore
-    parts[16] = '" offset="100%"/></linearGradient><linearGradient x1="36.3%" y1="44.3%" x2="59.0%" y2="25.9%" id="E"><stop stop-color="';
+    parts[16] = '" offset="100%"/></linearGradient><linearGradient x1="43.7%" y1="57.6%" x2="75.1%" y2="8.1%" id="H"><stop stop-color="';
     parts[17] = c0;
     parts[18] = '" offset="0%"/><stop stop-color="';
     parts[19] = c1;
     // prettier-ignore
-    parts[20] = '" offset="100%"/></linearGradient><linearGradient x1="-17.9%" y1="79.6%" x2="57.4%" y2="11.3%" id="F"><stop stop-color="';
+    parts[20] = '" offset="100%"/></linearGradient><linearGradient x1="100%" y1="42.2%" x2="50%" y2="58.4%" id="I"><stop stop-color="';
     parts[21] = c0;
     parts[22] = '" offset="0%"/><stop stop-color="';
     parts[23] = c1;
     // prettier-ignore
-    parts[24] = '" offset="100%"/></linearGradient><linearGradient x1="60.7%" y1="12.1%" x2="42.1%" y2="106.3%" id="G"><stop stop-color="';
-    parts[25] = c0;
-    parts[26] = '" offset="0%"/><stop stop-color="';
-    parts[27] = c1;
+    parts[24] = '" offset="100%"/></linearGradient></defs><g fill="none" fill-rule="evenodd"><path fill="';
+    parts[25] = bg;
     // prettier-ignore
-    parts[28] = '" offset="100%"/></linearGradient><linearGradient x1="43.7%" y1="57.6%" x2="75.1%" y2="8.1%" id="H"><stop stop-color="';
+    parts[26] = '" d="M0 0h2048v2048H0z"/><polygon filter="url(#S)" fill="rgba(0,0,0,.3)" points="271 562 783 1247 1005 999 1930 643 1637 1256 1871 1510 1607 1355 1149 1775 1047 1641 55 1434 576 1195"></polygon><g><animateTransform attributeName="transform" type="translate" values="82 186;82 140;82 186" dur="4s" repeatCount="indefinite" /><path fill="url(#A)" d="M833 785l115-264 936-425-335 796-317 189z"/><path fill="url(#B)" d="M572 851L219 0l576 932z"/><path fill="';
+    parts[27] = c0;
+    parts[28] = '" d="M994 706l238 330-144 88z"/><path fill="';
     parts[29] = c0;
-    parts[30] = '" offset="0%"/><stop stop-color="';
-    parts[31] = c1;
     // prettier-ignore
-    parts[32] = '" offset="100%"/></linearGradient><linearGradient x1="100%" y1="42.2%" x2="50%" y2="58.4%" id="I"><stop stop-color="';
-    parts[33] = c0;
-    parts[34] = '" offset="0%"/><stop stop-color="';
-    parts[35] = c1;
+    parts[30] = '" d="M1165 1398l405-466.286L1521.949 870z"/><path d="M1550 834c20.633-11.828 63.814.701 88 30 16.124 19.533 72.457 108.199 169 266l-285-269c4.911-10.115 14.245-19.115 28-27z" fill="url(#E)"/><path d="M1063 1109l400-264c19-13 52-25 84-7 21.333 12 108 109.333 260 292l-279-216-363 484-68 41-34-330z" fill="url(#F)"/><path fill="';
+    parts[31] = c0;
     // prettier-ignore
-    parts[36] = '" offset="100%"/></linearGradient></defs><g fill="none" fill-rule="evenodd"><path fill="';
-    parts[37] = bg;
-    // prettier-ignore
-    parts[38] = '" d="M0 0h2048v2048H0z"/><polygon filter="url(#S)" fill="rgba(0,0,0,.3)" points="271 562 783 1247 1005 999 1930 643 1637 1256 1871 1510 1607 1355 1149 1775 1047 1641 55 1434 576 1195"></polygon><g><animateTransform attributeName="transform" type="translate" values="82 186;82 140;82 186" dur="4s" repeatCount="indefinite" /><path fill="url(#A)" d="M833 785l115-264 936-425-335 796-317 189z"/><path fill="url(#B)" d="M572 851L219 0l576 932z"/><path fill="url(#C)" d="M994 706l238 330-144 88z"/><path fill="url(#D)" d="M1165 1398l405-466.286L1521.949 870z"/><path d="M1550 834c20.633-11.828 63.814.701 88 30 16.124 19.533 72.457 108.199 169 266l-285-269c4.911-10.115 14.245-19.115 28-27z" fill="url(#E)"/><path d="M1063 1109l400-264c19-13 52-25 84-7 21.333 12 108 109.333 260 292l-279-216-363 484-68 41-34-330z" fill="url(#F)"/><path fill="url(#G)" d="M1097 1439l47-206-150 33z"/><path fill="url(#H)" d="M651 857l343-151 150 527z"/><path fill="url(#I)" d="M0 1035l498-267 213 62 433 403-113 52z"/></g><path fill="';
-    parts[39] = c1;
-    parts[40] = '" d="M0 1968h80v80H0z"/><path fill="';
-    parts[41] = c0;
-    parts[42] = '" d="M80 1968h80v80H80z"/></g></svg>';
+    parts[32] = '" d="M1097 1439l47-206-150 33z"/><path fill="url(#H)" d="M651 857l343-151 150 527z"/><path fill="url(#I)" d="M0 1035l498-267 213 62 433 403-113 52z"/></g><path fill="';
+    parts[33] = c1;
+    parts[34] = '" d="M0 1968h80v80H0z"/><path fill="';
+    parts[35] = c0;
+    parts[36] = '" d="M80 1968h80v80H80z"/></g></svg>';
 
     string memory output = string(
       abi.encodePacked(
@@ -166,14 +167,9 @@ contract Cranes is ERC721, ERC721Enumerable, Ownable {
         parts[33],
         parts[34],
         parts[35],
-        parts[36],
-        parts[37],
-        parts[38],
-        parts[39],
-        parts[40]
+        parts[36]
       )
     );
-    output = string(abi.encodePacked(output, parts[41], parts[42]));
 
     output = Base64.encode(
       bytes(
