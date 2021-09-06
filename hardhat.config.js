@@ -24,12 +24,16 @@ module.exports = {
         enabled: true,
         runs: 200,
         details: {
-          yul: false
-        }
+          yul: false,
+        },
       },
     },
   },
   networks: {
+    rinkeby: {
+      url: process.env.RINKEBY_ENDPOINT,
+      accounts: [process.env.PRIVATE_KEY],
+    },
     ropsten: {
       url: process.env.ROPSTEN_ENDPOINT,
       accounts: [process.env.PRIVATE_KEY],
