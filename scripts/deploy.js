@@ -1,9 +1,14 @@
 async function main() {
   // We get the contract to deploy
-  const Greeter = await ethers.getContractFactory("Cranes");
-  const greeter = await Greeter.deploy();
+  const Colors = await ethers.getContractFactory("Colors");
+  const colors = await Colors.deploy();
 
-  console.log("Greeter deployed to:", greeter.address);
+  const Cranes = await ethers.getContractFactory("Cranes", {
+    libraries: { Colors: colors.address },
+  });
+  const cranes = await Cranes.deploy();
+
+  console.log("Cranes deployed to:", cranes.address);
 }
 
 main()

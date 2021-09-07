@@ -177,7 +177,7 @@ contract Cranes is ERC721, ERC721Enumerable, Ownable {
           abi.encodePacked(
             '{"name": "Crane #',
             _toString(tokenId),
-            '", "description": "Cranes are little on-chain tokens of luck for special wallets", "image": "data:image/svg+xml;base64,',
+            '", "description": "Cranes are little on-chain tokens of luck for special wallets. Best to keep one around.", "image": "data:image/svg+xml;base64,',
             Base64.encode(bytes(output)),
             '"}'
           )
