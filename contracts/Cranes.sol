@@ -5,16 +5,18 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
+import "@openzeppelin/contracts/utils/Strings.sol";
 import "./Base64.sol";
 import "./Colors.sol";
 
 contract Cranes is ERC721, ERC721Enumerable, Ownable {
+  using Counters for Counters.Counter;
+  using Colors for Colors.Color;
+  using Strings for uint256;
+
   uint256 public constant MAX_CRANES_PER_YEAR = 1000;
 
   uint256 public price = 20000000000000000;
-
-  using Counters for Counters.Counter;
-  using Colors for Colors.Color;
 
   Counters.Counter private _tokenIdCounter;
   mapping(uint256 => Counters.Counter) private _yearlyCounts;
@@ -110,9 +112,9 @@ contract Cranes is ERC721, ERC721Enumerable, Ownable {
     parts[34] = '" d="M0 1968h80v80H0z"/><path fill="';
     parts[35] = c0;
     parts[36] = '" d="M80 1968h80v80H80z"/></g><text font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, monospace" font-size="50" font-weight="bold" fill="rgba(255,255,255,.9)" x="180" y="2023">';
-    parts[37] = _toString(year);
+    parts[37] = year.toString();
     parts[38] = "-";
-    parts[39] = _toString(count);
+    parts[39] = count.toString();
     parts[40] = "</text></svg>";
 
     string memory output = string(abi.encodePacked(parts[0], parts[1], parts[2], parts[3], parts[4], parts[5], parts[6], parts[7], parts[8], parts[9], parts[10]));
@@ -120,7 +122,7 @@ contract Cranes is ERC721, ERC721Enumerable, Ownable {
     output = string(abi.encodePacked(output, parts[21], parts[22], parts[23], parts[24], parts[25], parts[26], parts[27], parts[28], parts[29], parts[30]));
     output = string(abi.encodePacked(output, parts[31], parts[32], parts[33], parts[34], parts[35], parts[36], parts[37], parts[38], parts[39], parts[40]));
 
-    output = Base64.encode(bytes(string(abi.encodePacked('{"name": "Crane #', _toString(tokenId), '", "description": "Cranes are tiny, randomly generated, on-chain tokens of luck for special wallets. Best to keep one around, just in case.", "image": "data:image/svg+xml;base64,', Base64.encode(bytes(output)), '"}'))));
+    output = Base64.encode(bytes(string(abi.encodePacked('{"name": "Crane #', tokenId.toString(), '", "description": "Cranes are tiny, randomly generated, on-chain tokens of luck for special wallets. Best to keep one around, just in case.", "image": "data:image/svg+xml;base64,', Base64.encode(bytes(output)), '"}'))));
     output = string(abi.encodePacked("data:application/json;base64,", output));
 
     return output;
@@ -132,27 +134,6 @@ contract Cranes is ERC721, ERC721Enumerable, Ownable {
 
   function _beforeTokenTransfer(address from, address to, uint256 tokenId) internal override(ERC721, ERC721Enumerable) {
     super._beforeTokenTransfer(from, to, tokenId);
-  }
-
-  function _toString(uint256 value) internal pure returns (string memory) {
-    // Inspired by OraclizeAPI's implementation - MIT license
-    // https://github.com/oraclize/ethereum-api/blob/b42146b063c7d6ee1358846c198246239e9360e8/oraclizeAPI_0.4.25.sol
-    if (value == 0) {
-      return "0";
-    }
-    uint256 temp = value;
-    uint256 digits;
-    while (temp != 0) {
-      digits++;
-      temp /= 10;
-    }
-    bytes memory buffer = new bytes(digits);
-    while (value != 0) {
-      digits -= 1;
-      buffer[digits] = bytes1(uint8(48 + uint256(value % 10)));
-      value /= 10;
-    }
-    return string(buffer);
   }
 
   // The following functions are overrides required by Solidity.
