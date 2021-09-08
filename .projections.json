@@ -1,0 +1,4 @@
+{
+  "contracts/*.sol": { "alternate": "test/contracts/{}Test.js" },
+  "test/contracts/*Test.js": { "alternate": "contracts/{}.sol" }
+}

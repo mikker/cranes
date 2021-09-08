@@ -7,36 +7,47 @@ library Colors {
   using Strings for uint256;
 
   struct Color {
-    uint256 red;
-    uint256 green;
-    uint256 blue;
+    uint256 hue;
+    uint256 saturation;
+    uint256 lightness;
   }
 
-  function fromSeed(string memory seed) public pure returns (Color memory) {
+  function fromSeedWithMinMax(
+    string memory seed,
+    uint256 sMin,
+    uint256 sMax,
+    uint256 lMin,
+    uint256 lMax
+  ) public pure returns (Color memory) {
     return
       Color(
-        valueFromSeed(string(abi.encodePacked("R", seed))),
-        valueFromSeed(string(abi.encodePacked("G", seed))),
-        valueFromSeed(string(abi.encodePacked("B", seed)))
+        valueFromSeed(string(abi.encodePacked("H", seed)), 0, 359),
+        valueFromSeed(string(abi.encodePacked("S", seed)), sMin, sMax),
+        valueFromSeed(string(abi.encodePacked("L", seed)), lMin, lMax)
       );
   }
 
-  function toCSSString(Color memory color) public pure returns (string memory) {
+  function toHSLString(Color memory color) public pure returns (string memory) {
     return
       string(
         abi.encodePacked(
-          "rgb(",
-          color.red.toString(),
+          "hsl(",
+          color.hue.toString(),
           ",",
-          color.green.toString(),
-          ",",
-          color.blue.toString(),
-          ")"
+          color.saturation.toString(),
+          "%,",
+          color.lightness.toString(),
+          "%)"
         )
       );
   }
 
-  function valueFromSeed(string memory seed) private pure returns (uint256) {
-    return uint256(keccak256(abi.encodePacked(seed))) % 255;
+  function valueFromSeed(
+    string memory seed,
+    uint256 from,
+    uint256 to
+  ) private pure returns (uint256) {
+    if (to == from) return from;
+    return (uint256(keccak256(abi.encodePacked(seed))) % (to - from)) + from;
   }
 }

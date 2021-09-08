@@ -26,10 +26,10 @@ describe("Cranes", function () {
 
   it("has a grand total and a yearly total", async function () {
     expect(await contract.totalSupply()).to.equal(0);
-    expect(await contract.totalYearlySupply()).to.equal(0);
+    expect(await contract.currentYearTotalSupply()).to.equal(0);
     await contract.mint(owner.address);
     expect(await contract.totalSupply()).to.equal(1);
-    expect(await contract.totalYearlySupply()).to.equal(1);
+    expect(await contract.currentYearTotalSupply()).to.equal(1);
   });
 
   it("can be minted by owner", async function () {
@@ -40,7 +40,7 @@ describe("Cranes", function () {
   it("can be crafted by anyone for themselves", async function () {
     const contractAsWallet = await contract.connect(wallet1);
     await contractAsWallet.craftForSelf({
-      value: ethers.utils.parseEther("0.01"),
+      value: ethers.utils.parseEther("0.02"),
     });
     expect(await contract.balanceOf(owner.address)).to.equal(0);
     expect(await contract.balanceOf(wallet1.address)).to.equal(1);
@@ -50,13 +50,13 @@ describe("Cranes", function () {
     const contractAsWallet = await contract.connect(wallet1);
     expect(
       contractAsWallet.craftForSelf({
-        value: ethers.utils.parseEther("0.0001"),
+        value: ethers.utils.parseEther("0.0002"),
       })
     ).to.be.revertedWith("PRICE_NOT_MET");
 
     expect(
       contractAsWallet.craftForFriend(wallet2.address, {
-        value: ethers.utils.parseEther("0.0001"),
+        value: ethers.utils.parseEther("0.0002"),
       })
     ).to.be.revertedWith("PRICE_NOT_MET");
   });
@@ -64,7 +64,7 @@ describe("Cranes", function () {
   it("can be crafted by anyone for someone else", async function () {
     const contractAsWallet = await contract.connect(wallet1);
     const token = await contractAsWallet.craftForFriend(wallet2.address, {
-      value: ethers.utils.parseEther("0.01"),
+      value: ethers.utils.parseEther("0.02"),
     });
     expect(await contract.balanceOf(owner.address)).to.equal(0);
     expect(await contract.balanceOf(wallet1.address)).to.equal(0);
@@ -72,8 +72,9 @@ describe("Cranes", function () {
   });
 
   it("has a tokenUri", async function () {
+    const i = 0;
     const token = await contract.mint(owner.address);
-    const uri = await contract.tokenURI(0);
+    const uri = await contract.tokenURI(i);
     expect(uri).to.match(/^data:/);
 
     const [pre, base64] = uri.split(",");
@@ -83,7 +84,22 @@ describe("Cranes", function () {
     const svg = Buffer.from(json["image"].split(",")[1], "base64").toString(
       "utf-8"
     );
-    fs.writeFileSync("./tmp/last.svg", svg);
-    console.log(cwd() + "/tmp/last.svg");
+    fs.writeFileSync(`./tmp/last-${i}.svg`, svg);
+    console.log(cwd() + `/tmp/last-${i}.svg`);
+  });
+
+  it("can update its price", async function () {
+    const contractAsWallet = await contract.connect(wallet1);
+    await contractAsWallet.craftForSelf({
+      value: ethers.utils.parseEther("0.02"),
+    });
+
+    contract.setPrice(ethers.utils.parseEther("0.1"));
+
+    expect(
+      contractAsWallet.craftForSelf({
+        value: ethers.utils.parseEther("0.002"),
+      })
+    ).to.be.revertedWith("PRICE_NOT_MET");
   });
 });
