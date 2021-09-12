@@ -15,28 +15,32 @@ contract Cranes is ERC721, ERC721Enumerable, Ownable {
   using Strings for uint256;
 
   uint256 public constant MAX_CRANES_PER_YEAR = 1000;
+  string public constant DESCRIPTION = "Cranes are tiny, randomly generated, fully on-chain tokens of luck for special wallets. Best to keep one around, just in case.";
 
-  uint256 public price = 20000000000000000;
+  uint256 public price = 0.02 ether;
 
   Counters.Counter private _tokenIdCounter;
   mapping(uint256 => Counters.Counter) private _yearlyCounts;
-  mapping(uint256 => uint256) private _seeds;
+  mapping(uint256 => uint256[3]) private _seeds;
 
   constructor() ERC721("Cranes", "CRNS") {}
 
   function _mint(address destination) private {
-    require(
-      currentYearTotalSupply() <= MAX_CRANES_PER_YEAR,
-      "YEARLY_MAX_REACHED"
-    );
+    require(currentYearTotalSupply() <= MAX_CRANES_PER_YEAR, "YEARLY_MAX_REACHED");
 
     uint256 tokenId = _tokenIdCounter.current();
+    uint256 destinationSeed = uint256(uint160(destination)) % 10000000;
+
     _safeMint(destination, tokenId);
 
-    _tokenIdCounter.increment();
     uint256 year = getCurrentYear();
     _yearlyCounts[year].increment();
-    _seeds[tokenId] = year * 100000 + _yearlyCounts[year].current();
+    uint256 yearCount = _yearlyCounts[year].current();
+    _seeds[tokenId][0] = year;
+    _seeds[tokenId][1] = yearCount;
+    _seeds[tokenId][2] = destinationSeed;
+
+    _tokenIdCounter.increment();
   }
 
   function mint(address destination) public onlyOwner {
@@ -66,16 +70,17 @@ contract Cranes is ERC721, ERC721Enumerable, Ownable {
   }
 
   function tokenURI(uint256 tokenId) public view override returns (string memory) {
-    uint256 seed = _seeds[tokenId];
-    uint256 year = seed / 100000;
-    uint256 count = seed % 100000;
+    uint256[3] memory seed = _seeds[tokenId];
+    string memory year = seed[0].toString();
+    string memory count = seed[1].toString();
+    string memory colorSeed = string(abi.encodePacked(seed[0], seed[1], seed[2]));
 
-    string memory c0 = Colors.fromSeedWithMinMax(string(abi.encodePacked(seed, "COLOR0")), 30, 80, 35, 55).toHSLString();
-    string memory c1 = Colors.fromSeedWithMinMax(string(abi.encodePacked(seed, "COLOR1")), 60, 90, 60, 75).toHSLString();
-    string memory bg = Colors.fromSeedWithMinMax(string(abi.encodePacked(seed, "BACKGROUND")), 30, 60, 10, 50).toHSLString();
+    string memory c0 = Colors.fromSeedWithMinMax(string(abi.encodePacked(colorSeed, "COLOR0")), 30, 80, 35, 55).toHSLString();
+    string memory c1 = Colors.fromSeedWithMinMax(string(abi.encodePacked(colorSeed, "COLOR1")), 60, 90, 60, 75).toHSLString();
+    string memory bg = Colors.fromSeedWithMinMax(string(abi.encodePacked(colorSeed, "BACKGROUND")), 30, 60, 10, 50).toHSLString();
 
     string[43] memory parts;
-    parts[0] = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2048 2048" xmlns:v="https://vecta.io/nano" preserveAspectRatio="none"><defs><filter id="S" x="0" y="0"><feGaussianBlur in="SourceGraphic" stdDeviation="50"/></filter><linearGradient x1="17%" y1="81%" x2="87%" y2="21.5%" id="A"><stop stop-color="';
+    parts[0] = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2048 2048" xmlns:v="https://vecta.io/nano"><defs><filter id="S" x="0" y="0"><feGaussianBlur in="SourceGraphic" stdDeviation="50"/></filter><linearGradient x1="17%" y1="81%" x2="87%" y2="21.5%" id="A"><stop stop-color="';
     parts[1] = c0;
     parts[2] = '" offset="0%"/><stop stop-color="';
     parts[3] = c1;
@@ -112,9 +117,9 @@ contract Cranes is ERC721, ERC721Enumerable, Ownable {
     parts[34] = '" d="M0 1968h80v80H0z"/><path fill="';
     parts[35] = c0;
     parts[36] = '" d="M80 1968h80v80H80z"/></g><text font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, monospace" font-size="50" font-weight="bold" fill="rgba(255,255,255,.9)" x="180" y="2023">';
-    parts[37] = year.toString();
+    parts[37] = year;
     parts[38] = "-";
-    parts[39] = count.toString();
+    parts[39] = count;
     parts[40] = "</text></svg>";
 
     string memory output = string(abi.encodePacked(parts[0], parts[1], parts[2], parts[3], parts[4], parts[5], parts[6], parts[7], parts[8], parts[9], parts[10]));
@@ -122,7 +127,7 @@ contract Cranes is ERC721, ERC721Enumerable, Ownable {
     output = string(abi.encodePacked(output, parts[21], parts[22], parts[23], parts[24], parts[25], parts[26], parts[27], parts[28], parts[29], parts[30]));
     output = string(abi.encodePacked(output, parts[31], parts[32], parts[33], parts[34], parts[35], parts[36], parts[37], parts[38], parts[39], parts[40]));
 
-    output = Base64.encode(bytes(string(abi.encodePacked('{"name": "Crane #', tokenId.toString(), '", "description": "Cranes are tiny, randomly generated, on-chain tokens of luck for special wallets. Best to keep one around, just in case.", "image": "data:image/svg+xml;base64,', Base64.encode(bytes(output)), '"}'))));
+    output = Base64.encode(bytes(string(abi.encodePacked('{"name":"Crane #', year, "/", count, '","description":"', DESCRIPTION, '","image": "data:image/svg+xml;base64,', Base64.encode(bytes(output)), '"}'))));
     output = string(abi.encodePacked("data:application/json;base64,", output));
 
     return output;
@@ -132,7 +137,11 @@ contract Cranes is ERC721, ERC721Enumerable, Ownable {
     require(payable(msg.sender).send(address(this).balance));
   }
 
-  function _beforeTokenTransfer(address from, address to, uint256 tokenId) internal override(ERC721, ERC721Enumerable) {
+  function _beforeTokenTransfer(
+    address from,
+    address to,
+    uint256 tokenId
+  ) internal override(ERC721, ERC721Enumerable) {
     super._beforeTokenTransfer(from, to, tokenId);
   }
 
