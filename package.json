@@ -9,19 +9,13 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@react-three/drei": "^7.5.0",
-    "@react-three/fiber": "^7.0.6",
-    "@react-three/postprocessing": "^2.0.5",
     "@tailwindcss/aspect-ratio": "^0.2.1",
-    "@uiw/react-color": "^1.0.0",
-    "autoprefixer": "^10.3.3",
-    "next": "11.1.1",
+    "autoprefixer": "^10.3.4",
+    "next": "11.1.2",
     "postcss": "^8.3.6",
-    "randomcolor": "^0.6.2",
     "react": "17.0.2",
-    "react-color": "^2.19.3",
     "react-dom": "17.0.2",
-    "tailwindcss": "^2.2.9"
+    "tailwindcss": "^2.2.15"
   },
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "^2.0.2",
@@ -32,12 +26,12 @@
     "chai": "^4.3.4",
     "dotenv": "^10.0.0",
     "eslint": "7.32.0",
-    "eslint-config-next": "11.1.1",
+    "eslint-config-next": "11.1.2",
     "ethereum-waffle": "^3.4.0",
     "ethers": "^5.4.6",
-    "hardhat": "^2.6.1",
-    "prettier": "^2.3.2",
-    "prettier-plugin-solidity": "^1.0.0-beta.17"
+    "hardhat": "^2.6.4",
+    "prettier": "^2.4.0",
+    "prettier-plugin-solidity": "^1.0.0-beta.18"
   },
   "prettier": {
     "overrides": [
