@@ -12,10 +12,10 @@ library Colors {
     uint256 lightness;
   }
 
-  function fromSeedWithMinMax(string memory seed, uint256 sMin, uint256 sMax, uint256 lMin, uint256 lMax) public pure returns (Color memory) {
+  function fromSeedWithMinMax(string memory seed, uint256 hMin, uint256 hMax, uint256 sMin, uint256 sMax, uint256 lMin, uint256 lMax) public pure returns (Color memory) {
     return
       Color(
-        valueFromSeed(string(abi.encodePacked("H", seed)), 0, 359),
+        valueFromSeed(string(abi.encodePacked("H", seed)), hMin, hMax),
         valueFromSeed(string(abi.encodePacked("S", seed)), sMin, sMax),
         valueFromSeed(string(abi.encodePacked("L", seed)), lMin, lMax)
       );
@@ -36,7 +36,7 @@ library Colors {
       );
   }
 
-  function valueFromSeed(string memory seed, uint256 from, uint256 to) private pure returns (uint256) {
+  function valueFromSeed(string memory seed, uint256 from, uint256 to) public pure returns (uint256) {
     if (to <= from) return from;
     return (uint256(keccak256(abi.encodePacked(seed))) % (to - from)) + from;
   }

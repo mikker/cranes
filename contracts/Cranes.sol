@@ -75,12 +75,16 @@ contract Cranes is ERC721, ERC721Enumerable, Ownable {
     string memory count = seed[1].toString();
     string memory colorSeed = string(abi.encodePacked(seed[0], seed[1], seed[2]));
 
-    string memory c0 = Colors.fromSeedWithMinMax(string(abi.encodePacked(colorSeed, "COLOR0")), 30, 80, 35, 55).toHSLString();
-    string memory c1 = Colors.fromSeedWithMinMax(string(abi.encodePacked(colorSeed, "COLOR1")), 60, 90, 60, 75).toHSLString();
-    string memory bg = Colors.fromSeedWithMinMax(string(abi.encodePacked(colorSeed, "BACKGROUND")), 30, 60, 10, 50).toHSLString();
+    string memory c0seed = string(abi.encodePacked(colorSeed, "COLOR0"));
+    Colors.Color memory base = Colors.fromSeedWithMinMax(c0seed, 0, 359, 20, 100, 30, 40);
+    uint256 hMin = base.hue + 359 + Colors.valueFromSeed(c0seed, 5, 60);
+    uint256 hMax = base.hue + Colors.valueFromSeed(c0seed, 5, 60);
+    string memory c0 = base.toHSLString();
+    string memory c1 = Colors.fromSeedWithMinMax(string(abi.encodePacked(colorSeed, "COLOR1")), hMin, hMax, 70, 90, 70, 85).toHSLString();
+    string memory bg = Colors.fromSeedWithMinMax(string(abi.encodePacked(colorSeed, "BACKGROUND")), 0, 359, 0, 50, 10, 100).toHSLString();
 
     string[43] memory parts;
-    parts[0] = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2048 2048" xmlns:v="https://vecta.io/nano"><defs><filter id="S" x="0" y="0"><feGaussianBlur in="SourceGraphic" stdDeviation="50"/></filter><linearGradient x1="17%" y1="81%" x2="87%" y2="21.5%" id="A"><stop stop-color="';
+    parts[0] = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2048 2048" xmlns:v="https://vecta.io/nano"><defs><filter id="S" x="0" y="0"><feGaussianBlur in="SourceGraphic" stdDeviation="50"/></filter><linearGradient x1="13%" y1="99%" x2="87%" y2="21.5%" id="A"><stop stop-color="';
     parts[1] = c0;
     parts[2] = '" offset="0%"/><stop stop-color="';
     parts[3] = c1;
