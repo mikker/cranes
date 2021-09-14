@@ -1,6 +1,5 @@
 export default function TestPage() {
   const times = Array.from(Array(100));
-  console.log(times);
 
   return (
     <main className="grid grid-cols-5">
@@ -16,7 +15,6 @@ export default function TestPage() {
         );
         const bg = Color.random(0, 359, 0, 50, 10, 100)
 
-        console.log(c1, c2, bg)
         return (
           <div key={i} className="">
             <Crane
