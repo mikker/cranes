@@ -30,12 +30,12 @@ module.exports = {
     },
   },
   networks: {
-    rinkeby: {
-      url: process.env.RINKEBY_ENDPOINT,
+    mainnet: {
+      url: process.env.MAINNET_ENDPOINT,
       accounts: [process.env.PRIVATE_KEY],
     },
-    ropsten: {
-      url: process.env.ROPSTEN_ENDPOINT,
+    rinkeby: {
+      url: process.env.RINKEBY_ENDPOINT,
       accounts: [process.env.PRIVATE_KEY],
     },
   },

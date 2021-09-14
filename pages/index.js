@@ -1,3 +1,4 @@
+import Head from "next/head";
 import { useEffect, useState, useRef } from "react";
 import Web3, { utils } from "web3";
 import WalletConnectProvider from "@walletconnect/web3-provider";
@@ -9,7 +10,7 @@ import debounce from "debounce";
 
 const contractAddress =
   process.env.NODE_ENV === "production"
-    ? "xxx"
+    ? "0xc3F5E8A98B3d97f19938E4673Fd97C7cfd155577"
     : "0x426d1156D37e7b359f53cB22AF0Fb617b927b966";
 
 const injected = new InjectedConnector({ supportedChainIds: [1, 3, 4, 5, 42] });
@@ -148,16 +149,30 @@ function Home() {
   });
 
   return (
-    <main className="max-w-4xl mx-auto bg-white text-lg md:text-2xl">
+    <main className="max-w-4xl mx-auto bg-white text-base md:text-2xl">
+      <Head>
+        <title>Cranes (for special wallets)</title>
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <link rel="manifest" href="/manifest.webmanifest" />
+      </Head>
+
       <div className="p-5 md:p-16">
         <header className="leading-normal">
           <h1 className="md:text-8xl font-bold md:font-thin">Cranes</h1>
           <h2 className="font-light tracking-tight md:text-4xl max-w-5xl italic">
             Cranes are tiny, randomly generated, fully on-chain tokens of luck
-            for <span className="rainbow bg-clip-text text-transparent font-bold">special*</span> wallets.
+            for{" "}
+            <span className="rainbow bg-clip-text text-transparent font-bold">
+              special*
+            </span>{" "}
+            wallets.
           </h2>
           <div className="h-2"></div>
-          <p className="text-sm text-gray-700">*All wallets are special to someone.</p>
+          <p className="text-sm text-gray-700">
+            *All wallets are special to someone.
+          </p>
         </header>
         <div className="h-8"></div>
         <div>
@@ -277,6 +292,24 @@ function Home() {
             </p>
           </div>
           <div>
+            <H4>Why paper cranes?</H4>
+            <p>
+              From{" "}
+              <A href="https://en.wikipedia.org/wiki/One_thousand_origami_cranes">
+                Wikipedia
+              </A>
+              :
+            </p>
+            <blockquote className="pl-6 p-3 italic">
+              An ancient Japanese legend promises that anyone who folds a
+              thousand origami cranes will be granted a wish by the gods. Some
+              stories believe one is granted happiness and eternal good luck,
+              instead of just one wish, such as long life or recovery from
+              illness or injury. This makes them popular gifts for special
+              friends and family.
+            </blockquote>
+          </div>
+          <div>
             <H4>
               What do you mean by <em>fully on-chain</em>?
             </H4>
@@ -304,11 +337,25 @@ function Home() {
           <div>
             <H4>How do I buy one?</H4>
             <p>
-              First you need an Ethereum wallet. I recommend <A href="https://rainbow.me">🌈&nbsp;Rainbow</A>.{" "}
-              <A href="https://metamask.io/">Metamask</A> is fine too. Then you buy some ETH. Then you use this website as long as supplies last.
+              First you need an Ethereum wallet. I recommend{" "}
+              <A href="https://rainbow.me">🌈&nbsp;Rainbow</A>.{" "}
+              <A href="https://metamask.io/">Metamask</A> is fine too. Then you
+              buy some ETH. Then you use this website as long as supplies last.
             </p>
           </div>
         </div>
+      </div>
+      <div className="text-sm p-5 md:p-16">
+        <A href="https://etherscan.io/address/0xc3f5e8a98b3d97f19938e4673fd97c7cfd155577">
+          Etherscan
+        </A>{" "}
+        &bull;{" "}
+        <A href="https://opensea.io/collection/cranes-for-special-wallets">
+          OpenSea
+        </A>{" "}
+        &bull; <A href="https://github.com/mikker/cranes">GitHub</A> &bull;{" "}
+        <A href="https://twitter.com/mikker">Twitter</A> &bull; There's no
+        Discord
       </div>
     </main>
   );
