@@ -134,7 +134,7 @@ function Home() {
       .send({ from: account, value: utils.toWei("0.02", "ether") })
       .then((res) => {
         setWorking(false);
-        console.log(res);
+        setTransactionHash(res.transactionHash);
       }, handleError);
   }
 
