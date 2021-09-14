@@ -2,7 +2,6 @@ const fs = require("fs");
 const { cwd } = require("process");
 
 async function main() {
-  // We get the contract to deploy
   const Colors = await ethers.getContractFactory("Colors");
   const colors = await Colors.deploy();
 

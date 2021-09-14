@@ -8,6 +8,7 @@ async function main() {
   });
   const cranes = await Cranes.deploy();
 
+  console.log("Colors deployed to:", colors.address);
   console.log("Cranes deployed to:", cranes.address);
 }
 

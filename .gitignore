@@ -32,8 +32,8 @@ yarn-error.log*
 
 # vercel
 .vercel
+
 artifacts/
 cache/
 .env
-tmp/*.svg
 tmp/*
