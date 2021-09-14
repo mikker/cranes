@@ -36,3 +36,4 @@ artifacts/
 cache/
 .env
 tmp/*.svg
+tmp/*
