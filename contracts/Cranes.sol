@@ -77,8 +77,8 @@ contract Cranes is ERC721, ERC721Enumerable, Ownable {
 
     string memory c0seed = string(abi.encodePacked(colorSeed, "COLOR0"));
     Colors.Color memory base = Colors.fromSeedWithMinMax(c0seed, 0, 359, 20, 100, 30, 40);
-    uint256 hMin = base.hue + 359 + Colors.valueFromSeed(c0seed, 5, 60);
-    uint256 hMax = base.hue + Colors.valueFromSeed(c0seed, 5, 60);
+    uint256 hMin = base.hue + 359 - Colors.valueFromSeed(c0seed, 5, 60);
+    uint256 hMax = base.hue + 359 + Colors.valueFromSeed(c0seed, 5, 60);
     string memory c0 = base.toHSLString();
     string memory c1 = Colors.fromSeedWithMinMax(string(abi.encodePacked(colorSeed, "COLOR1")), hMin, hMax, 70, 90, 70, 85).toHSLString();
     string memory bg = Colors.fromSeedWithMinMax(string(abi.encodePacked(colorSeed, "BACKGROUND")), 0, 359, 0, 50, 10, 100).toHSLString();

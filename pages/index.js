@@ -1,9 +1,16 @@
-import { useEffect } from "react";
-import Web3 from "web3";
+import { useEffect, useState, useRef } from "react";
+import Web3, { utils } from "web3";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import { InjectedConnector } from "@web3-react/injected-connector";
 import { WalletConnectConnector } from "@web3-react/walletconnect-connector";
 import { Web3ReactProvider, useWeb3React } from "@web3-react/core";
+import cn from "classnames";
+import debounce from "debounce";
+
+const contractAddress =
+  process.env.NODE_ENV === "production"
+    ? "xxx"
+    : "0x426d1156D37e7b359f53cB22AF0Fb617b927b966";
 
 const injected = new InjectedConnector({ supportedChainIds: [1, 3, 4, 5, 42] });
 const wcConnector = new WalletConnectConnector({
@@ -13,6 +20,39 @@ const wcConnector = new WalletConnectConnector({
 function getLibrary(provider) {
   return new Web3(provider);
 }
+
+const abi = [
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "walletAddress",
+        type: "address",
+      },
+    ],
+    name: "craftForFriend",
+    outputs: [],
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "craftForSelf",
+    outputs: [],
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "currentYearTotalSupply",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    type: "function",
+  },
+];
 
 export default function WrappedHome() {
   return (
@@ -25,107 +65,299 @@ export default function WrappedHome() {
 function Home() {
   const { activate, active, account, library } = useWeb3React();
 
+  const [working, setWorking] = useState(false);
+  const [contract, setContract] = useState(null);
+  const [error, setError] = useState(null);
+  const [yearTotal, setYearTotal] = useState(0);
+  const [friendAddress, setFriendAddress] = useState("");
+  const [realFriendAddress, setRealFriendAddress] = useState("");
+  const [transactionHash, setTransactionHash] = useState(null);
+  const friendField = useRef();
+
   useEffect(() => {
     if (!library) return;
 
-    console.log(account);
+    const contract = new library.eth.Contract(abi, contractAddress);
+    setContract(contract);
+
+    contract.methods
+      .currentYearTotalSupply()
+      .call()
+      .then((res) => {
+        setYearTotal(res);
+      }, handleError);
+
+    setWorking(false);
   }, [account]);
 
+  useEffect(() => {
+    if (!friendAddress) return;
+
+    if (friendAddress.match(/0x[a-fA-F0-9]{40}/)) {
+      setRealFriendAddress(friendAddress);
+      return;
+    }
+
+    if (friendAddress.match(/\./)) {
+      debouncedLookup();
+    }
+  }, [friendAddress]);
+
+  function handleError(err) {
+    console.error(err);
+    setWorking(false);
+    setError(err);
+  }
+
+  function craftForSelf() {
+    setWorking(true);
+
+    contract.methods
+      .craftForSelf()
+      .send({ from: account, value: utils.toWei("0.02", "ether") })
+      .then((res) => {
+        setWorking(false);
+        setTransactionHash(res.transactionHash);
+      }, handleError);
+  }
+
+  function craftForFriend() {
+    if (!realFriendAddress) {
+      friendField.current.focus();
+    }
+
+    setWorking(true);
+
+    contract.methods
+      .craftForFriend(realFriendAddress)
+      .send({ from: account, value: utils.toWei("0.02", "ether") })
+      .then((res) => {
+        setWorking(false);
+        console.log(res);
+      }, handleError);
+  }
+
+  const debouncedLookup = debounce(async () => {
+    setWorking(true);
+    try {
+      const address = await library.eth.ens.getAddress(friendAddress);
+      setRealFriendAddress(address);
+    } catch {}
+
+    setWorking(false);
+  });
+
   return (
-    <main className="md:flex bg-white text-lg md:text-4xl">
-      <div className="flex-1 p-5 md:p-16">
-        <header className="azaret leading-normal">
+    <main className="max-w-4xl mx-auto bg-white text-lg md:text-2xl">
+      <div className="p-5 md:p-16">
+        <header className="leading-normal">
           <h1 className="md:text-8xl font-bold md:font-thin">Cranes</h1>
-          <h2 className="font-light tracking-tight max-w-5xl italic">
+          <h2 className="font-light tracking-tight md:text-4xl max-w-5xl italic">
             Cranes are tiny, randomly generated, fully on-chain tokens of luck
             for special* wallets.
           </h2>
           <div className="h-2"></div>
-          <p className="text-sm text-green-500">*All wallets are special.</p>
+          <p className="text-sm text-pink-500">*All wallets are special.</p>
         </header>
         <div className="h-8"></div>
         <div>
-          {!active && <ConnectButtons activate={activate} />}
+          {!active && (
+            <ConnectButtons setWorking={setWorking} activate={activate} />
+          )}
           {active && (
-            <div className="flex flex-col space-y-2">
+            <div className="flex flex-col space-y-4 md:max-w-md">
               <MintButton
-                onClick={() => {
-                  mint();
-                }}
+                disabled={working}
+                onClick={craftForSelf}
+                className="rounded-full"
               >
-                Mint Crane
+                Mint Crane (Ξ0.02)
               </MintButton>
-              <MintButton
-                onClick={() => {
-                  mint();
-                }}
-              >
-                Mint to a friend
-              </MintButton>
+
+              <div className="flex flex-col">
+                <input
+                  ref={friendField}
+                  className="input text-sm md:text-lg rounded-2xl rounded-b-none"
+                  value={friendAddress}
+                  onChange={(event) => {
+                    setFriendAddress(event.target.value);
+                  }}
+                  placeholder={"0x… or ENS domain"}
+                />
+                <MintButton
+                  disabled={working}
+                  className="rounded-2xl rounded-t-none"
+                  onClick={craftForFriend}
+                >
+                  Mint for a friend (Ξ0.02)
+                </MintButton>
+              </div>
+
+              {realFriendAddress && (
+                <div className="text-sm truncate">
+                  Sending to{" "}
+                  <code className="bg-gray-100" title={realFriendAddress}>
+                    {realFriendAddress}
+                  </code>
+                </div>
+              )}
 
               <div className="h-2"></div>
 
-              <div className="text-sm space-y-2">
+              {transactionHash && (
+                <div className="text-green-500 text-xs flex flex-col space-y-2">
+                  <span>Success!</span>
+                  <a
+                    href={`https://etherscan.io/tx/${transactionHash}`}
+                    className="btn font-normal bg-gray-100 rounded-full shadow-md"
+                  >
+                    View transaction on Etherscan
+                  </a>
+                </div>
+              )}
+              {error && (
+                <div className="text-red-500 text-xs">{error.message}</div>
+              )}
+
+              <div className="text-sm space-y-2 leading-normal">
                 <p>
                   <strong>Cranes are Ξ0.02</strong>{" "}
                 </p>
-                <div className="h-2"></div>
                 <p>
-                  You can mint one for yourself or for a friend &mdash; the
-                  colors will be different for each crane # and destination
-                  address.
+                  You can mint one for yourself or for a friend. The result will
+                  be different for each crane depending on its number and
+                  destination address.
+                </p>
+
+                <p>
+                  {yearTotal}/1,000 cranes have been minted in{" "}
+                  {new Date().getFullYear()}.
+                </p>
+
+                <progress
+                  className="w-full"
+                  max={1000}
+                  value={yearTotal}
+                  disabled={working}
+                />
+
+                <p>
+                  If all 1,000 cranes are minted in a year, holders get to mint
+                  a <em>Special Edition Mega Luck</em> crane for free.
                 </p>
               </div>
-
-              <progress max={1000} value={30} />
             </div>
           )}
         </div>
       </div>
-      {/* <div className="w-1/4 flex flex-wrap mx-auto max-w-md"> */}
-      {/*   <img src="/last-2.svg" className="w-100 flex-0" /> */}
-      {/*   <img src="/last-81.svg" className="w-100 flex-0" /> */}
-      {/*   <img src="/last-12.svg" className="w-100 flex-0" /> */}
-      {/*   <img src="/last-25.svg" className="w-100 flex-0" /> */}
-      {/*   <img src="/last-25.svg" className="w-100 flex-0" /> */}
-      {/*   <img src="/last-12.svg" className="w-100 flex-0" /> */}
-      {/*   <img src="/last-81.svg" className="w-100 flex-0" /> */}
-      {/*   <img src="/last-2.svg" className="w-100 flex-0" /> */}
-      {/* </div> */}
+
+      <div className="grid grid-cols-2 md:grid-cols-3">
+        <img src="/last-67.svg" className="" />
+        <img src="/last-1.svg" className="" />
+        <img src="/last-13.svg" className="" />
+        <img src="/last-4.svg" className="" />
+        <img src="/last-7.svg" className="" />
+        <img src="/last-8.svg" className="" />
+      </div>
+
+      <div className="p-5 md:p-16">
+        <div className="space-y-4 md:space-y-8 font-light">
+          <h2 className="md:text-8xl font-thin">FAQ</h2>
+          <div>
+            <H4>Who's behind Cranes?</H4>
+            <p>
+              Cranes are designed and coded by{" "}
+              <a
+                href="https://mikkelmalmberg.com"
+                className="text-blue-500 underline"
+              >
+                Mikkel Malmberg
+              </a>
+              .
+            </p>
+          </div>
+          <div>
+            <H4>
+              What do you mean by <em>fully on-chain</em>?
+            </H4>
+            <p>
+              Everything, even the image data, is stored directly on the
+              Ethereum blockchain. Most NFTs hold only the metadata and
+              ownership information and then links to an external service for
+              the actual asset. This is mostly fine, however the service storing
+              that asset may disappear or the data go corrupt. Probably not, but
+              maybe. Even if this website disappears at some point, Cranes will
+              be around as long as the blockchain itself.
+            </p>
+          </div>
+          <div>
+            <H4>How are the Cranes generated?</H4>
+            <p>
+              The Cranes are generated from the same SVG template, seeded with
+              random colors. It isn't true randomness, as we still expect the
+              same crane to have the same colors every time we view it. So the
+              colors are <em>*randomly*</em> chosen from a few seed values, that
+              make it always return the same colors for the same seed, which is
+              mint year + token id + destination address.
+            </p>
+          </div>
+          <div>
+            <H4>How do I buy one?</H4>
+            <p>
+              First you need an Ethereum wallet. I recommend <A href="https://rainbow.me">🌈&nbsp;Rainbow</A>.{" "}
+              <A href="https://metamask.io/">Metamask</A> is fine too. Then you buy some ETH. Then you use this website as long as supplies last.
+            </p>
+          </div>
+        </div>
+      </div>
     </main>
   );
 }
 
-function ConnectButtons({ activate }) {
+const A = (props) => <a className="text-blue-500 underline" {...props} />;
+const H4 = (props) => <h4 className="font-bold" {...props} />;
+const Answer = (props) => <div className="font-light" {...props} />;
+
+function ConnectButtons({ activate, setWorking }) {
+  const cls =
+    "btn bg-white rounded-full inline-flex images-center space-x-2 shadow-md border w-100 md:w-auto text-base font-normal";
   return (
-    <div className="flex flex-col space-y-2">
+    <>
       <h3>Connect wallet</h3>
-      <button
-        onClick={() => {
-          activate(injected);
-        }}
-        className="btn bg-white inline-flex images-center space-x-2 text-yellow-600 shadow-md border border-yellow-600 w-100 md:w-auto text-base"
-      >
-        <img src="/metamask-fox.svg" className="h-5 w-5" />
-        <span>Metamask</span>
-      </button>
-      <button
-        onClick={() => {
-          activate(wcConnector);
-        }}
-        className="btn bg-white inline-flex images-center space-x-2 text-blue-500 shadow-md border border-blue-600 w-100 md:w-auto text-base"
-      >
-        <img src="/walletconnect-logo.svg" className="h-5 w-5" />
-        <span>WalletConnect</span>
-      </button>
-    </div>
+      <div className="h-2"></div>
+      <div className="flex flex-col md:flex-row items-start space-y-2 md:space-y-0 md:space-x-2">
+        <button
+          onClick={() => {
+            setWorking(true);
+            activate(injected);
+          }}
+          className={cn(cls, "text-yellow-600 border-yellow-600")}
+        >
+          <img src="/metamask-fox.svg" className="h-5 w-5" />
+          <span>Metamask</span>
+        </button>
+        <button
+          onClick={() => {
+            setWorking(true);
+            activate(wcConnector);
+          }}
+          className={cn(cls, "text-blue-500 border-blue-600")}
+        >
+          <img src="/walletconnect-logo.svg" className="h-5 w-5" />
+          <span>WalletConnect</span>
+        </button>
+      </div>
+    </>
   );
 }
 
-function MintButton({ ...props }) {
+function MintButton({ className, ...props }) {
   return (
     <button
-      className="btn text-sm tracking-tight bg-black shadow-md azaret font-light text-white rounded-full"
+      className={cn(
+        "btn md:text-lg text-sm tracking-tight bg-black shadow-md font-light text-white",
+        className
+      )}
       {...props}
     />
   );

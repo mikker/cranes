@@ -56,7 +56,7 @@ function rand(min, max) {
 
 function Crane({ color1, color2, bg, i }) {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2048 2048">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2048 2048" preserveAspectRatio='none'>
       <defs>
         <filter id={`S-${i}`} x="0" y="0">
           <feGaussianBlur in="SourceGraphic" stdDeviation="50" />
