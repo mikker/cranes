@@ -146,7 +146,7 @@ function Home() {
     } catch {}
 
     setWorking(false);
-  });
+  }, 1000);
 
   return (
     <main className="max-w-4xl mx-auto bg-white text-base md:text-2xl">
