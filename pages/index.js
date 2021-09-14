@@ -15,7 +15,7 @@ const contractAddress =
 
 const injected = new InjectedConnector({ supportedChainIds: [1, 3, 4, 5, 42] });
 const wcConnector = new WalletConnectConnector({
-  infuraId: "9fb83dcc98ca424d887a2ac6348090ee",
+  infuraId: "cddde80366fc42c2ac9202c6a0f9850b",
 });
 
 function getLibrary(provider) {
