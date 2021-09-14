@@ -170,7 +170,7 @@ function Home() {
             wallets.
           </h2>
           <div className="h-2"></div>
-          <p className="text-sm text-gray-700">
+          <p className="text-sm text-gray-700 dark:text-gray-400">
             *All wallets are special to someone.
           </p>
         </header>
