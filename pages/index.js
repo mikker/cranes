@@ -154,10 +154,10 @@ function Home() {
           <h1 className="md:text-8xl font-bold md:font-thin">Cranes</h1>
           <h2 className="font-light tracking-tight md:text-4xl max-w-5xl italic">
             Cranes are tiny, randomly generated, fully on-chain tokens of luck
-            for special* wallets.
+            for <span className="rainbow bg-clip-text text-transparent font-bold">special*</span> wallets.
           </h2>
           <div className="h-2"></div>
-          <p className="text-sm text-pink-500">*All wallets are special.</p>
+          <p className="text-sm text-gray-700">*All wallets are special to someone.</p>
         </header>
         <div className="h-8"></div>
         <div>

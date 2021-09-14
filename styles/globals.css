@@ -26,12 +26,37 @@
   .azaret {
     font-family: "Azeret Mono", monospace;
   }
+
+  .rainbow {
+    background-color: black;
+    background-image: linear-gradient(
+      to right,
+      var(--light-purple),
+      var(--purple),
+      var(--blue),
+      var(--green),
+      var(--yellow),
+      var(--orange),
+      var(--red)
+    );
+  }
 }
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-html, * {
+html,
+* {
   @apply azaret;
+}
+
+:root {
+  --light-purple: #ac62ed;
+  --purple: #4e00e0;
+  --blue: #38aef4;
+  --green: #4bde79;
+  --yellow: #ffed26;
+  --orange: #ffae5f;
+  --red: #ff5353;
 }
