@@ -149,7 +149,7 @@ function Home() {
   }, 1000);
 
   return (
-    <main className="max-w-4xl mx-auto bg-white text-base md:text-2xl">
+    <main className="max-w-4xl mx-auto text-base md:text-2xl">
       <Head>
         <title>Cranes (for special wallets)</title>
         <link rel="icon" href="/favicon.ico" sizes="any" />
@@ -367,7 +367,7 @@ const Answer = (props) => <div className="font-light" {...props} />;
 
 function ConnectButtons({ activate, setWorking }) {
   const cls =
-    "btn bg-white rounded-full inline-flex images-center space-x-2 shadow-md border w-100 md:w-auto text-base font-normal";
+    "btn bg-white dark:bg-gray-900 rounded-full inline-flex images-center space-x-2 shadow-md border w-100 md:w-auto text-base font-normal";
   return (
     <>
       <h3>Connect wallet</h3>
@@ -402,7 +402,7 @@ function MintButton({ className, ...props }) {
   return (
     <button
       className={cn(
-        "btn md:text-lg text-sm tracking-tight bg-black shadow-md font-light text-white",
+        "btn md:text-lg text-sm tracking-tight bg-black dark:bg-white dark:text-black shadow-md font-light text-white",
         className
       )}
       {...props}
