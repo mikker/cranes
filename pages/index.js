@@ -343,6 +343,13 @@ function Home() {
               buy some ETH. Then you use this website as long as supplies last.
             </p>
           </div>
+          <div>
+            <H4>How are Cranes licensed?</H4>
+            <p>
+              Cranes, the contract code, IP and resulting assets are all <strong className='font-bold'>Public
+              Domain</strong>. Feel free to build upon the project in any way you'd like.
+            </p>
+          </div>
         </div>
       </div>
       <div className="text-sm p-5 md:p-16">
