@@ -150,7 +150,7 @@ function Crane({ color1, color2, bg, i }) {
         x="180"
         y="2023"
       >
-        2021-13
+        20XX-XX
       </text>
     </svg>
   );
