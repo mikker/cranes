@@ -11,7 +11,9 @@ import debounce from "debounce";
 const contractAddress =
   process.env.NODE_ENV === "production"
     ? "0xc3F5E8A98B3d97f19938E4673Fd97C7cfd155577"
-    : "0x426d1156D37e7b359f53cB22AF0Fb617b927b966";
+    : "0xc3F5E8A98B3d97f19938E4673Fd97C7cfd155577";
+
+const soldOut = true; // omg!
 
 const injected = new InjectedConnector({ supportedChainIds: [1, 3, 4, 5, 42] });
 const wcConnector = new WalletConnectConnector({
@@ -174,95 +176,128 @@ function Home() {
             *All wallets are special to someone.
           </p>
         </header>
+
         <div className="h-8"></div>
-        <div>
-          {!active && (
-            <ConnectButtons setWorking={setWorking} activate={activate} />
-          )}
-          {active && (
-            <div className="flex flex-col space-y-4 md:max-w-md">
-              <MintButton
-                disabled={working}
-                onClick={craftForSelf}
-                className="rounded-full"
-              >
-                Mint Crane (Ξ0.02)
-              </MintButton>
 
-              <div className="flex flex-col">
-                <input
-                  ref={friendField}
-                  className="input text-sm md:text-lg rounded-2xl rounded-b-none"
-                  value={friendAddress}
-                  onChange={(event) => {
-                    setFriendAddress(event.target.value);
-                  }}
-                  placeholder={"0x… or ENS domain"}
-                />
+        <div className="md:flex">
+          <div className="w-full flex-auto text-sm order-1 md:ml-6 leading-normal">
+            <h3 className="mb-2 text-xl leading-normal">
+              <span className="bg-red-500 text-white decoration-clone p-1">Cranes have sold out for 2020!</span>
+            </h3>
+            <p className="mb-2">
+              I'm stoked and surprised and very, very thankful.
+            </p>
+            <p className="mb-2">
+              Had never expected this thing to take off so fast. Thank you to
+              all Crane holders. May your wallets be lucky and your cranes
+              colorful.
+            </p>
+            <p className="mb-2">
+              I am working on the Special Edition crane now that we reached
+              1,000. It will be available here to mint for free (except gas) for
+              all Crane holders.
+            </p>
+            <p className="mb-2">
+              If you didn't get a Crane before they sold out, there are a few
+              available on{" "}
+              <A href="https://opensea.io/collection/cranes-for-special-wallets">
+                OpenSea
+              </A>
+              . There will be another 1,000 to mint when the New Year rolls
+              around.
+            </p>
+            <p>Thank you all so much.</p>
+          </div>
+
+          <div className="h-6 md:hidden"></div>
+
+          <div className="flex-0 w-full flex flex-col space-y-4 md:max-w-md">
+            {!active && (
+              <ConnectButtons setWorking={setWorking} activate={activate} />
+            )}
+            {active && (
+              <div>
                 <MintButton
-                  disabled={working}
-                  className="rounded-2xl rounded-t-none"
-                  onClick={craftForFriend}
+                  disabled={working || soldOut}
+                  onClick={craftForSelf}
+                  className="rounded-full"
                 >
-                  Mint for a friend (Ξ0.02)
+                  Mint Crane (Ξ0.02)
                 </MintButton>
-              </div>
 
-              {realFriendAddress && (
-                <div className="text-sm truncate">
-                  Sending to{" "}
-                  <code className="bg-gray-100" title={realFriendAddress}>
-                    {realFriendAddress}
-                  </code>
-                </div>
-              )}
+                <div className="h-2"></div>
 
-              <div className="h-2"></div>
-
-              {transactionHash && (
-                <div className="text-green-500 text-xs flex flex-col space-y-2">
-                  <span>Success!</span>
-                  <a
-                    href={`https://etherscan.io/tx/${transactionHash}`}
-                    className="btn font-normal bg-gray-100 rounded-full shadow-md"
+                <div className="flex flex-col">
+                  <input
+                    ref={friendField}
+                    className="input text-sm md:text-lg rounded-2xl rounded-b-none"
+                    value={friendAddress}
+                    onChange={(event) => {
+                      setFriendAddress(event.target.value);
+                    }}
+                    disabled={working || soldOut}
+                    placeholder={"0x… or ENS domain"}
+                  />
+                  <MintButton
+                    disabled={working || soldOut}
+                    className="rounded-2xl rounded-t-none"
+                    onClick={craftForFriend}
                   >
-                    View transaction on Etherscan
-                  </a>
+                    Mint for a friend (Ξ0.02)
+                  </MintButton>
                 </div>
-              )}
-              {error && (
-                <div className="text-red-500 text-xs">{error.message}</div>
-              )}
 
-              <div className="text-sm space-y-2 leading-normal">
-                <p>
-                  <strong>Cranes are Ξ0.02</strong>{" "}
-                </p>
-                <p>
-                  You can mint one for yourself or for a friend. The result will
-                  be different for each crane depending on its number and
-                  destination address.
-                </p>
+                {realFriendAddress && (
+                  <div className="text-sm truncate">
+                    Sending to{" "}
+                    <code className="bg-gray-100" title={realFriendAddress}>
+                      {realFriendAddress}
+                    </code>
+                  </div>
+                )}
 
-                <p>
-                  {yearTotal}/1,000 cranes have been minted in{" "}
-                  {new Date().getFullYear()}.
-                </p>
+                <div className="h-2"></div>
 
-                <progress
-                  className="w-full"
-                  max={1000}
-                  value={yearTotal}
-                  disabled={working}
-                />
+                {transactionHash && (
+                  <div className="text-green-500 text-xs flex flex-col space-y-2">
+                    <span>Success!</span>
+                    <a
+                      href={`https://etherscan.io/tx/${transactionHash}`}
+                      className="btn font-normal bg-gray-100 rounded-full shadow-md"
+                    >
+                      View transaction on Etherscan
+                    </a>
+                  </div>
+                )}
+                {error && (
+                  <div className="text-red-500 text-xs">{error.message}</div>
+                )}
 
-                <p>
-                  If all 1,000 cranes are minted in a year, holders get to mint
-                  a <em>Special Edition Mega Luck</em> crane for free.
-                </p>
+                <div className="text-sm space-y-2 leading-normal">
+                  <p>
+                    <strong>Cranes are Ξ0.02</strong>{" "}
+                  </p>
+                  <p>
+                    You <del>can</del> could mint one for yourself or for a friend. The result
+                    will be different for each crane depending on its number and
+                    destination address.
+                  </p>
+
+                  <p>
+                    {yearTotal}/1,000 cranes have been minted in{" "}
+                    {new Date().getFullYear()}.
+                  </p>
+
+                  <progress className="w-full" max={1000} value={yearTotal} />
+
+                  <p>
+                    If all 1,000 cranes are minted in a year, holders get to
+                    mint a <em>Special Edition Mega Luck</em> crane for free (gas only.)
+                  </p>
+                </div>
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
 
@@ -346,8 +381,9 @@ function Home() {
           <div>
             <H4>How are Cranes licensed?</H4>
             <p>
-              Cranes, the contract code, IP and resulting assets are all <strong className='font-bold'>Public
-              Domain</strong>. Feel free to build upon the project in any way you'd like.
+              Cranes, the contract code, IP and resulting assets are all{" "}
+              <strong className="font-bold">Public Domain</strong>. Feel free to
+              build upon the project in any way you'd like.
             </p>
           </div>
         </div>
@@ -378,7 +414,6 @@ function ConnectButtons({ activate, setWorking }) {
   return (
     <>
       <h3>Connect wallet</h3>
-      <div className="h-2"></div>
       <div className="flex flex-col md:flex-row items-start space-y-2 md:space-y-0 md:space-x-2">
         <button
           onClick={() => {
