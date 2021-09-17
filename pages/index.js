@@ -182,7 +182,7 @@ function Home() {
         <div className="md:flex">
           <div className="w-full flex-auto text-sm order-1 md:ml-6 leading-normal">
             <h3 className="mb-2 text-xl leading-normal">
-              <span className="bg-red-500 text-white decoration-clone p-1">Cranes have sold out for 2020!</span>
+              <span className="bg-red-500 text-white decoration-clone p-1">Cranes have sold out for 2021!</span>
             </h3>
             <p className="mb-2">
               I'm stoked and surprised and very, very thankful.
