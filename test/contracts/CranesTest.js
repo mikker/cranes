@@ -54,7 +54,7 @@ describe("Cranes", function () {
       })
     ).to.be.revertedWith("PRICE_NOT_MET");
 
-    expect(
+    await expect(
       contractAsWallet.craftForFriend(wallet2.address, {
         value: ethers.utils.parseEther("0.0002"),
       })
@@ -96,7 +96,7 @@ describe("Cranes", function () {
 
     contract.setPrice(ethers.utils.parseEther("0.1"));
 
-    expect(
+    await expect(
       contractAsWallet.craftForSelf({
         value: ethers.utils.parseEther("0.002"),
       })
