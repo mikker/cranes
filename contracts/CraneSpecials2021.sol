@@ -20,7 +20,6 @@ contract CraneSpecials2021 is ERC1155, Ownable {
 
   EnumerableMap.UintToAddressMap private releasedSpecials;
   mapping(uint256 => EnumerableSet.UintSet) private minted;
-  mapping(uint256 => uint256) private idToCraneId;
 
   address public cranesAddress;
   CranesInterface cranesContract;
@@ -53,7 +52,6 @@ contract CraneSpecials2021 is ERC1155, Ownable {
     uint256 amount
   ) public virtual {
     minted[id].add(craneId);
-    idToCraneId[id] = craneId;
     _mint(dest, id, amount, "");
   }
 
@@ -61,7 +59,7 @@ contract CraneSpecials2021 is ERC1155, Ownable {
     require(releasedSpecials.contains(id), "Special not yet released");
 
     SpecialInterface special = SpecialInterface(releasedSpecials.get(id));
-    string memory image64 = special.getImageBase64(id, idToCraneId[id]);
+    string memory image64 = special.getImageBase64();
 
     string memory base64 = Base64.encode(bytes(string(abi.encodePacked('{"name":"Cranes #2021/Special-1","description":"', DESCRIPTION, '","image":"data:image/svg+xml;base64,', image64, '"}'))));
     return string(abi.encodePacked("data:application/json;base64,", base64));

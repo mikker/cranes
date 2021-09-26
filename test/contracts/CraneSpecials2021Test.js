@@ -114,9 +114,15 @@ describe("CraneSpecials2021", function () {
   });
 
   it("can get release address", async function () {
-    const addr = await contract.getReleaseAddress(0);
-    console.log(addr)
-    console.log(await contract.getReleaseAddress(1));
+    let released, addr;
+
+    [released, addr] = await contract.getReleaseAddress(0);
+    expect(released).to.eq(true);
+    expect(addr).to.match(/0x\w+/)
+
+    [released, addr] = await contract.getReleaseAddress(1);
+    expect(released).to.eq(false);
+    expect(addr).to.match(/0x(0){20}/)
   })
 
   // it("has a grand total and a yearly total", async function () {
