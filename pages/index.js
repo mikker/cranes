@@ -1,10 +1,11 @@
 import Head from "next/head";
 import { useEffect, useState, useRef } from "react";
-import Web3, { utils } from "web3";
 import WalletConnectProvider from "@walletconnect/web3-provider";
+import { utils } from "web3";
+import { useWeb3React } from "@web3-react/core";
 import { InjectedConnector } from "@web3-react/injected-connector";
 import { WalletConnectConnector } from "@web3-react/walletconnect-connector";
-import { Web3ReactProvider, useWeb3React } from "@web3-react/core";
+import Web3Provider from "../components/Web3Provider"
 import cn from "classnames";
 import debounce from "debounce";
 
@@ -19,10 +20,6 @@ const injected = new InjectedConnector({ supportedChainIds: [1, 3, 4, 5, 42] });
 const wcConnector = new WalletConnectConnector({
   infuraId: "cddde80366fc42c2ac9202c6a0f9850b",
 });
-
-function getLibrary(provider) {
-  return new Web3(provider);
-}
 
 const abi = [
   {
@@ -59,9 +56,9 @@ const abi = [
 
 export default function WrappedHome() {
   return (
-    <Web3ReactProvider getLibrary={getLibrary}>
+    <Web3Provider>
       <Home />
-    </Web3ReactProvider>
+    </Web3Provider>
   );
 }
 
@@ -310,7 +307,35 @@ function Home() {
         <img src="/last-8.svg" className="" />
       </div>
 
-      <div className="p-5 md:p-16">
+      <div className="p-5 md:p-16 space-y-4 md:space-y-16">
+        <div className="space-y-4 md:space-y-8 font-light">
+          <h2 className="md:text-8xl font-thin">Timeline</h2>
+          <div>
+            <H4>September 2021</H4>
+            <p>Initial release of the first batch.</p>
+          </div>
+          <div>
+            <H4>October 2021</H4>
+            <p><strong>First</strong> Special Edition will be released, free to mint (except gas) for Cranes holders.</p>
+          </div>
+          <div>
+            <H4>November 2021</H4>
+            <p><strong>Second</strong> Special Edition will be released, free to mint (except gas) for Cranes holders.</p>
+          </div>
+          <div>
+            <H4>December 2021</H4>
+            <p><strong>Third</strong> Special Edition will be released, free to mint (except gas) for Cranes holders.</p>
+          </div>
+          <div>
+            <H4>January 2022</H4>
+            <p>1,000 more Cranes will be available to mint at 0.02 ETH like the first batch. If all 1,000 Cranes are minted before year's end, Special Editions similar to the above will be made again.</p>
+          </div>
+          <div>
+            <H4>Onwards…</H4>
+            <p>Who knows?</p>
+          </div>
+        </div>
+
         <div className="space-y-4 md:space-y-8 font-light">
           <h2 className="md:text-8xl font-thin">FAQ</h2>
           <div>

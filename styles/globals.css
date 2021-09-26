@@ -55,6 +55,10 @@ body {
   @apply bg-white dark:bg-gray-900 text-black dark:text-white;
 }
 
+strong {
+  @apply font-bold;
+}
+
 :root {
   --light-purple: #ac62ed;
   --purple: #4e00e0;
