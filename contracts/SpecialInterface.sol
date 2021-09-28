@@ -2,6 +2,6 @@
 pragma solidity ^0.8.2;
 
 interface SpecialInterface {
-  function getImageBase64() external pure returns (string memory);
+  function getURI() external pure returns (string memory);
 }
 
