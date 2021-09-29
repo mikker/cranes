@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="2048px" height="2048px" viewBox="0 0 2048 2048" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>dashed</title>
+    <defs>
+        <polygon id="path-1" points="271 562 783 1247 1005 999 1930 643 1637 1256 1871 1510 1607 1355 1149 1775 1047 1641 55 1434 576 1195"></polygon>
+        <filter x="-5.1%" y="-7.9%" width="110.2%" height="115.8%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="0" dy="0" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="32" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.101055439 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="dashed" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="shadow" fill="black" fill-opacity="1">
+            <use filter="url(#filter-2)" xlink:href="#path-1"></use>
+        </g>
+        <g id="C-Copy" transform="translate(82.000000, 186.000000)" stroke="#A8A8A8" stroke-dasharray="100" stroke-linecap="round" stroke-linejoin="round" stroke-opacity="0.664226399" stroke-width="35">
+            <path d="M219,0 L727.763,823.206 L837.378,774.95 L948,521 L1884,96 L1575.15182,829.85805 C1596.14583,831.822312 1621.4955,844.006584 1638,864 C1654.12404,883.532537 1710.45738,972.199204 1807,1130 C1806.99721,1129.99665 1806.99861,1129.99833 1807,1130 L1562.313,940.565 L1165,1398 L1097,1439 L1000.978,1277.72 L0,1035 L498,768 L543.005,781.1 L219,0 Z" id="Combined-Shape"></path>
+        </g>
+    </g>
+</svg>

@@ -66,7 +66,7 @@ contract CraneSpecials2021 is ERC1155, Ownable {
     SpecialInterface special = SpecialInterface(releasedSpecials.get(id));
     string memory imageUri = special.getURI();
 
-    string memory base64 = Base64.encode(bytes(string(abi.encodePacked('{"name":"Cranes #2021/Special ', id.toString(), '","description":"', DESCRIPTION, '","image":"', imageUri, '"}'))));
+    string memory base64 = Base64.encode(bytes(string(abi.encodePacked('{"name":"Cranes #2021/Special ', (id + 1).toString(), '","description":"', DESCRIPTION, '","image":"', imageUri, '"}'))));
     return string(abi.encodePacked("data:application/json;base64,", base64));
   }
 }
