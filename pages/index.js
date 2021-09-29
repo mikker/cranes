@@ -488,8 +488,8 @@ function Home() {
         <A href="https://twitter.com/mikker">Twitter</A> &bull; There's no
         Discord
         <br />
-        Specials: <A href="https://">Etherscan</A> &bull;{" "}
-        <A href="https://">OpenSea</A>
+        Specials: <A href="https://etherscan.io/address/0x71ede9894aeb2ff2da92d2ca4865d37d1ab77a1b">Etherscan</A> &bull;{" "}
+        <A href="https://opensea.io/collection/cranes-for-special-editions">OpenSea</A>
       </div>
 
       <div className="fixed inset-x-0 bottom-0 bg-white dark:bg-gray-800 shadow-2xl border-t-2 border-gray-100 py-3 px-5">
