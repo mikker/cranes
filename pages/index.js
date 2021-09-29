@@ -1,5 +1,4 @@
 import { useEffect, useState, useRef } from "react";
-import WalletConnectProvider from "@walletconnect/web3-provider";
 import { utils } from "web3";
 import { useWeb3React } from "@web3-react/core";
 import { InjectedConnector } from "@web3-react/injected-connector";
@@ -487,7 +486,9 @@ function Home() {
         </A>{" "}
         &bull; <A href="https://github.com/mikker/cranes">GitHub</A> &bull;{" "}
         <A href="https://twitter.com/mikker">Twitter</A> &bull; There's no
-        Discord<br />Specials: <A href="https://">Etherscan</A> &bull;{" "}
+        Discord
+        <br />
+        Specials: <A href="https://">Etherscan</A> &bull;{" "}
         <A href="https://">OpenSea</A>
       </div>
 
