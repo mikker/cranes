@@ -477,7 +477,7 @@ function Home() {
           </div>
         </div>
       </div>
-      <div className="text-sm p-5 md:p-16">
+      <div className="text-sm p-5 md:p-16 leading-normal mb-8">
         <A href="https://etherscan.io/address/0xc3f5e8a98b3d97f19938e4673fd97c7cfd155577">
           Etherscan
         </A>{" "}
@@ -487,7 +487,8 @@ function Home() {
         </A>{" "}
         &bull; <A href="https://github.com/mikker/cranes">GitHub</A> &bull;{" "}
         <A href="https://twitter.com/mikker">Twitter</A> &bull; There's no
-        Discord
+        Discord<br />Specials: <A href="https://">Etherscan</A> &bull;{" "}
+        <A href="https://">OpenSea</A>
       </div>
 
       <div className="fixed inset-x-0 bottom-0 bg-white dark:bg-gray-800 shadow-2xl border-t-2 border-gray-100 py-3 px-5">
