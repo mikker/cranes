@@ -47,6 +47,8 @@ function Home() {
   useEffect(() => {
     if (!library) return;
 
+    // library.eth.handleRevert = true // fails with TypeError: err.data.substring is not a function
+
     const contract = new library.eth.Contract(cranesABI, cranesAddress);
     setContract(contract);
     const specialsContract = new library.eth.Contract(
@@ -311,7 +313,11 @@ function Home() {
                 </>
               )}
               <p className="text-base">Available!</p>
-              <p className="text-sm"><span className="bg-green-300 inline-block px-2 rounded-lg">ERC1155 / 100% on-chain</span></p>
+              <p className="text-sm">
+                <span className="bg-green-300 inline-block px-2 rounded-lg">
+                  ERC1155 / 100% on-chain
+                </span>
+              </p>
             </div>
             <div className="w-full md:w-1/3 space-y-2">
               <div className="p-4 border-2 rounded-lg block max-w-xs">
