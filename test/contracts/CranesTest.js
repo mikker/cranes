@@ -1,7 +1,6 @@
 const fs = require("fs");
 const { cwd } = require("process");
 const { expect } = require("chai");
-const { beforeEach } = require("mocha");
 
 describe("Cranes", function () {
   let contract;
