@@ -319,7 +319,7 @@ function Home() {
               </p>
             </div>
             <div className="w-full md:w-1/3 space-y-2">
-              <video loop autoPlay muted className="block rounded-lg w-full max-w-xs">
+              <video playsInline loop autoPlay muted className="block rounded-lg w-full max-w-xs">
                 <source type="video/mp4" src="/special-2.mp4" />
               </video>
               {active && (
