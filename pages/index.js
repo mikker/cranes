@@ -299,6 +299,7 @@ function Home() {
           <h2 className="md:text-xl md:font-thin">2021</h2>
           <div className="flex flex-col md:flex-row md:space-x-2 space-y-6 md:space-y-0">
             <div className="w-full md:w-1/3 space-y-2">
+              <h2>#1</h2>
               <img src="/special-1.svg" className="block rounded-lg max-w-xs" />
               {active && (
                 <>
@@ -313,19 +314,20 @@ function Home() {
               )}
               <p className="text-base">Available!</p>
               <p className="text-sm">
-                <span className="bg-green-300 inline-block px-2 rounded-lg">
+                <span className="text-white bg-green-800 inline-block px-2 rounded-lg">
                   ERC1155 / 100% on-chain
                 </span>
               </p>
             </div>
             <div className="w-full md:w-1/3 space-y-2">
-              <div className="p-4 border-2 rounded-lg block max-w-xs">
-                <img src="/dashed.svg" className="" />
-              </div>
+              <h2>#2</h2>
+              <video playsInline loop autoPlay muted className="block rounded-lg w-full max-w-xs">
+                <source type="video/mp4" src="/special-2.mp4" />
+              </video>
               {active && (
                 <>
                   <MintButton
-                    disabled={true || working}
+                    disabled={working}
                     onClick={craftSpecial(1)}
                     className="rounded-full"
                   >
@@ -333,9 +335,15 @@ function Home() {
                   </MintButton>
                 </>
               )}
-              <p className="text-base">Release ~Nov 1, 2021</p>
+              <p className="text-base">Available!</p>
+              <p className="text-sm">
+                <span className="text-white bg-green-800 inline-block px-2 rounded-lg">
+                  ERC1155 / metadata on-chain / asset on IPFS / collab with <a href="https://opensea.io/collection/rund" className='underline'>Rasmus</a>
+                </span>
+              </p>
             </div>
             <div className="w-full md:w-1/3 space-y-2">
+              <h2>#3</h2>
               <div className="p-4 border-2 rounded-lg block max-w-xs">
                 <img src="/dashed.svg" className="" />
               </div>

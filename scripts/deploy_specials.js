@@ -1,17 +1,17 @@
 async function main() {
-  const cranesAddress =
-    process.env.CRANES_ADDR || "0x852900dCda9846a28486b641e5520Abf3cABc775"; // Cranes on Rinkeby
+  // const cranesAddress =
+  //   process.env.CRANES_ADDR || "0x852900dCda9846a28486b641e5520Abf3cABc775"; // Cranes on Rinkeby
 
-  const Special1Factory = await ethers.getContractFactory("Special_2021_1");
-  const special1 = await Special1Factory.deploy();
-  console.log("Special1 deployed to:", special1.address);
+  const Special2Factory = await ethers.getContractFactory("Special_2021_2");
+  const special2 = await Special2Factory.deploy();
+  console.log("Special2 deployed to:", special2.address);
 
-  const SpecialsFactory = await ethers.getContractFactory("CraneSpecials2021");
-  const specials = await SpecialsFactory.deploy(cranesAddress);
-  console.log("Specials deployed to:", specials.address);
+  // const SpecialsFactory = await ethers.getContractFactory("CraneSpecials2021");
+  // const specials = await SpecialsFactory.deploy(cranesAddress);
+  // console.log("Specials deployed to:", specials.address);
 
-  specials.setReleaseAddress(0, special1.address);
-  console.log("First release address set");
+  // specials.setReleaseAddress(0, special1.address);
+  // console.log("First release address set");
 }
 
 main()
