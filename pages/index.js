@@ -161,11 +161,11 @@ function Home() {
     <Layout>
       <div className="p-5 md:p-16">
         <header className="leading-normal">
-          <h1 className="md:text-8xl font-bold md:font-thin">Cranes</h1>
-          <h2 className="font-light tracking-tight md:text-4xl max-w-5xl italic">
+          <h1 className="font-bold md:text-8xl md:font-thin">Cranes</h1>
+          <h2 className="max-w-5xl italic font-light tracking-tight md:text-4xl">
             Cranes are tiny, randomly generated, fully on-chain tokens of luck
             for{" "}
-            <span className="rainbow bg-clip-text text-transparent font-bold">
+            <span className="font-bold text-transparent rainbow bg-clip-text">
               special*
             </span>{" "}
             wallets.
@@ -179,9 +179,9 @@ function Home() {
         <div className="h-8"></div>
 
         <div className="md:flex">
-          <div className="w-full flex-auto text-sm order-1 md:ml-6 leading-normal">
+          <div className="flex-auto order-1 w-full text-sm leading-normal md:ml-6">
             <h3 className="mb-2 leading-normal">
-              <span className="bg-red-500 text-white decoration-clone p-1">
+              <span className="p-1 text-white bg-red-500 decoration-clone">
                 Cranes have sold out for 2021!
               </span>
             </h3>
@@ -205,7 +205,7 @@ function Home() {
 
           <div className="h-6 md:hidden"></div>
 
-          <div className="flex-0 w-full flex flex-col space-y-4 md:max-w-md">
+          <div className="flex flex-col w-full flex-0 space-y-4 md:max-w-md">
             {!active && (
               <ConnectButtons setWorking={setWorking} activate={activate} />
             )}
@@ -224,7 +224,7 @@ function Home() {
                 <div className="flex flex-col">
                   <input
                     ref={friendField}
-                    className="input text-sm md:text-lg rounded-2xl rounded-b-none"
+                    className="text-sm rounded-b-none input md:text-lg rounded-2xl"
                     value={friendAddress}
                     onChange={(event) => {
                       setFriendAddress(event.target.value);
@@ -234,7 +234,7 @@ function Home() {
                   />
                   <MintButton
                     disabled={working || soldOut}
-                    className="rounded-2xl rounded-t-none"
+                    className="rounded-t-none rounded-2xl"
                     onClick={craftForFriend}
                   >
                     Mint for a friend (Ξ0.02)
@@ -250,7 +250,7 @@ function Home() {
                   </div>
                 )}
 
-                <div className="text-sm space-y-2 leading-normal">
+                <div className="text-sm leading-normal space-y-2">
                   <p>
                     <strong>Cranes are Ξ0.02</strong>{" "}
                   </p>
@@ -289,7 +289,7 @@ function Home() {
       </div>
 
       <div className="p-5 md:p-16 space-y-4 md:space-y-16">
-        <div className="space-y-4 md:space-y-8 font-light">
+        <div className="font-light space-y-4 md:space-y-8">
           <h2 className="md:text-8xl md:font-thin">Specials</h2>
           <p>
             When 1,000 Cranes are crafted in the same calendar year, at least
@@ -297,10 +297,10 @@ function Home() {
             Crane holders.
           </p>
           <h2 className="md:text-xl md:font-thin">2021</h2>
-          <div className="flex flex-col md:flex-row md:space-x-2 space-y-6 md:space-y-0">
-            <div className="w-full md:w-1/3 space-y-2">
+          <div className="grid grid-cols-3 md:gap-2">
+            <div className="space-y-2">
               <h2>#1</h2>
-              <img src="/special-1.svg" className="block rounded-lg max-w-xs" />
+              <img src="/special-1.svg" className="block rounded-lg" />
               {active && (
                 <>
                   <MintButton
@@ -314,14 +314,14 @@ function Home() {
               )}
               <p className="text-base">Available!</p>
               <p className="text-sm">
-                <span className="text-white bg-green-800 inline-block px-2 rounded-lg">
+                <span className="inline-block px-2 text-white bg-green-800 rounded-lg">
                   ERC1155 / 100% on-chain
                 </span>
               </p>
             </div>
-            <div className="w-full md:w-1/3 space-y-2">
+            <div className="space-y-2">
               <h2>#2</h2>
-              <video playsInline loop autoPlay muted className="block rounded-lg w-full max-w-xs">
+              <video playsInline loop autoPlay muted className="block w-full rounded-lg">
                 <source type="video/mp4" src="/special-2.mp4" />
               </video>
               {active && (
@@ -337,20 +337,18 @@ function Home() {
               )}
               <p className="text-base">Available!</p>
               <p className="text-sm">
-                <span className="text-white bg-green-800 inline-block px-2 rounded-lg">
+                <span className="inline-block px-2 text-white bg-green-800 rounded-lg">
                   ERC1155 / metadata on-chain / asset on IPFS / collab with <a href="https://opensea.io/collection/rund" className='underline'>Rasmus</a>
                 </span>
               </p>
             </div>
-            <div className="w-full md:w-1/3 space-y-2">
+            <div className="space-y-2">
               <h2>#3</h2>
-              <div className="p-4 border-2 rounded-lg block max-w-xs">
-                <img src="/dashed.svg" className="" />
-              </div>
+              <img src="/special-3.gif" className="block w-full rounded-lg" />
               {active && (
                 <>
                   <MintButton
-                    disabled={true || working}
+                    disabled={working}
                     onClick={craftSpecial(2)}
                     className="rounded-full"
                   >
@@ -358,7 +356,12 @@ function Home() {
                   </MintButton>
                 </>
               )}
-              <p className="text-base">Release ~Dec 1, 2021</p>
+              <p className="text-base">Available!</p>
+              <p className="text-sm">
+                <span className="inline-block px-2 text-white bg-green-800 rounded-lg">
+                  ERC1155 / metadata on-chain / asset on IPFS / collab with <a href="https://opensea.io/collection/slimhoods" className='underline'>James</a>
+                </span>
+              </p>
             </div>
           </div>
           {!active && (
@@ -407,7 +410,7 @@ function Home() {
           </div>
         </div>
 
-        <div className="space-y-4 md:space-y-8 font-light">
+        <div className="font-light space-y-4 md:space-y-8">
           <h2 className="md:text-8xl md:font-thin">FAQ</h2>
           <div>
             <H4>Who's behind Cranes?</H4>
@@ -431,7 +434,7 @@ function Home() {
               </A>
               :
             </p>
-            <blockquote className="pl-6 p-3 italic">
+            <blockquote className="p-3 pl-6 italic">
               An ancient Japanese legend promises that anyone who folds a
               thousand origami cranes will be granted a wish by the gods. Some
               stories believe one is granted happiness and eternal good luck,
@@ -484,7 +487,7 @@ function Home() {
           </div>
         </div>
       </div>
-      <div className="text-sm p-5 md:p-16 leading-normal mb-8">
+      <div className="p-5 mb-8 text-sm leading-normal md:p-16">
         <A href="https://etherscan.io/address/0xc3f5e8a98b3d97f19938e4673fd97c7cfd155577">
           Etherscan
         </A>{" "}
@@ -500,9 +503,9 @@ function Home() {
         <A href="https://opensea.io/collection/cranes-for-special-editions">OpenSea</A>
       </div>
 
-      <div className="fixed inset-x-0 bottom-0 bg-white dark:bg-gray-800 shadow-2xl border-t-2 border-gray-100 py-3 px-5">
+      <div className="fixed inset-x-0 bottom-0 px-5 py-3 bg-white border-t-2 border-gray-100 shadow-2xl dark:bg-gray-800">
         {error && (
-          <div className="text-red-500 text-xs md:text-base mb-1">
+          <div className="mb-1 text-xs text-red-500 md:text-base">
             There was an error with your transaction. See Etherscan for details.
           </div>
         )}
@@ -510,7 +513,7 @@ function Home() {
           <ConnectButtons setWorking={setWorking} activate={activate} />
         )}
         {active && (
-          <div className="h-6 space-x-2 flex items-center">
+          <div className="flex items-center h-6 space-x-2">
             <span className="flex-1 block text-xs truncate md:text-base">
               Connected as <code className="text-red-500">{account}</code>
             </span>
@@ -523,7 +526,7 @@ function Home() {
                   error ? "text-red-500" : "text-black"
                 )}
               >
-                <Link className="h-3 w-3" />
+                <Link className="w-3 h-3" />
                 <span className="md:hidden">txn</span>
                 <span className="hidden md:inline">
                   Transaction on Etherscan
@@ -558,7 +561,7 @@ function ConnectButtons({ activate, setWorking }) {
           }}
           className={cn(cls, "text-yellow-600 border-yellow-600")}
         >
-          <img src="/metamask-fox.svg" className="h-5 w-5" />
+          <img src="/metamask-fox.svg" className="w-5 h-5" />
           <span>Metamask</span>
         </button>
         <button
@@ -568,7 +571,7 @@ function ConnectButtons({ activate, setWorking }) {
           }}
           className={cn(cls, "text-blue-500 border-blue-600")}
         >
-          <img src="/walletconnect-logo.svg" className="h-5 w-5" />
+          <img src="/walletconnect-logo.svg" className="w-5 h-5" />
           <span>WalletConnect</span>
         </button>
       </div>
