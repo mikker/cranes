@@ -179,28 +179,21 @@ function Home() {
         <div className="h-8"></div>
 
         <div className="md:flex">
-          <div className="flex-auto order-1 w-full text-sm leading-normal md:ml-6">
-            <h3 className="mb-2 leading-normal">
-              <span className="p-1 text-white bg-red-500 decoration-clone">
-                Cranes have sold out for 2021!
+          <div className="flex-auto order-1 w-full text-sm leading-normal md:ml-6 space-y-2">
+            <h3 className="leading-normal">
+              <span className="p-1 text-white bg-green-500 decoration-clone">
+                Cranes (2022) are available to mint!
               </span>
             </h3>
-            <p className="mb-2">
-              I'm stoked and surprised and very, very thankful.
-            </p>
-            <p className="mb-2">
-              If you didn't get a 2021 Crane before they sold out, there are
-              some available on{" "}
-              <A href="https://opensea.io/collection/cranes-for-special-wallets">
-                OpenSea
-              </A>
-              .
+            <p>
+              1,000 Cranes are available each year. Last year they sold out in a
+              day.
             </p>
             <p>
-              There will be another 1,000 to mint when the New Year rolls
-              around.
+              If all 1,000 Cranes for a year sell, special editions will be
+              made.
             </p>
-            <p>Thank you all so much.</p>
+            <p>Any Crane from any year can mint one of each special edition.</p>
           </div>
 
           <div className="h-6 md:hidden"></div>
@@ -250,14 +243,13 @@ function Home() {
                   </div>
                 )}
 
+                <div className="h-2"></div>
+
                 <div className="text-sm leading-normal space-y-2">
                   <p>
-                    <strong>Cranes are Ξ0.02</strong>{" "}
-                  </p>
-                  <p>
-                    You <del>can</del> could mint one for yourself or for a
-                    friend. The result will be different for each crane
-                    depending on its number and destination address.
+                    You can mint one for yourself or for a friend. The result
+                    will be different for each crane, depending on its year of
+                    birth, tokenId and destination address.
                   </p>
 
                   <p>
@@ -321,7 +313,13 @@ function Home() {
             </div>
             <div className="space-y-2">
               <h2>#2</h2>
-              <video playsInline loop autoPlay muted className="block w-full rounded-lg">
+              <video
+                playsInline
+                loop
+                autoPlay
+                muted
+                className="block w-full rounded-lg"
+              >
                 <source type="video/mp4" src="/special-2.mp4" />
               </video>
               {active && (
@@ -338,7 +336,13 @@ function Home() {
               <p className="text-base">Available!</p>
               <p className="text-sm">
                 <span className="inline-block px-2 text-white bg-green-800 rounded-lg">
-                  ERC1155 / metadata on-chain / asset on IPFS / collab with <a href="https://opensea.io/collection/rund" className='underline'>Rasmus</a>
+                  ERC1155 / metadata on-chain / asset on IPFS / collab with{" "}
+                  <a
+                    href="https://opensea.io/collection/rund"
+                    className="underline"
+                  >
+                    Rasmus
+                  </a>
                 </span>
               </p>
             </div>
@@ -359,7 +363,13 @@ function Home() {
               <p className="text-base">Available!</p>
               <p className="text-sm">
                 <span className="inline-block px-2 text-white bg-green-800 rounded-lg">
-                  ERC1155 / metadata on-chain / asset on IPFS / collab with <a href="https://opensea.io/collection/slimhoods" className='underline'>James</a>
+                  ERC1155 / metadata on-chain / asset on IPFS / collab with{" "}
+                  <a
+                    href="https://opensea.io/collection/slimhoods"
+                    className="underline"
+                  >
+                    James
+                  </a>
                 </span>
               </p>
             </div>
@@ -499,8 +509,14 @@ function Home() {
         <A href="https://twitter.com/mikker">Twitter</A> &bull; There's no
         Discord
         <br />
-        Specials: <A href="https://etherscan.io/address/0x71ede9894aeb2ff2da92d2ca4865d37d1ab77a1b">Etherscan</A> &bull;{" "}
-        <A href="https://opensea.io/collection/cranes-for-special-editions">OpenSea</A>
+        Specials:{" "}
+        <A href="https://etherscan.io/address/0x71ede9894aeb2ff2da92d2ca4865d37d1ab77a1b">
+          Etherscan
+        </A>{" "}
+        &bull;{" "}
+        <A href="https://opensea.io/collection/cranes-for-special-editions">
+          OpenSea
+        </A>
       </div>
 
       <div className="fixed inset-x-0 bottom-0 px-5 py-3 bg-white border-t-2 border-gray-100 shadow-2xl dark:bg-gray-800">
